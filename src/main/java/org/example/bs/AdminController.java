@@ -221,7 +221,7 @@ public class AdminController extends HelloController implements Initializable {
 
                 prepare = connect.prepareStatement(Update);
                 prepare.executeUpdate();
-                
+
                 error = new Error();
                 error.update("Successfully updated.");
 
@@ -229,6 +229,22 @@ public class AdminController extends HelloController implements Initializable {
                 clearbtn();
             }catch (Exception e){e.printStackTrace();}
         }
+    }
+    public void Deletbtn() throws SQLException {
+        if(Static.id == 0){
+            error = new Error();
+            error.setfield("Please fill out all field");
+        }else {
+            String delet = "DELETE FROM bookdeta WHERE id = "+ Static.id;
+            try{
+                prepare = connect.prepareStatement(delet);
+                prepare.executeUpdate();
+                error = new Error();
+                error.update("Successfully deleted");
+
+                showDetalist();
+                clearbtn();
+            }catch (Exception e){e.printStackTrace();}        }
     }
 
 
