@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bs.HelloController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <AnchorPane layoutX="400.0" prefHeight="600.0" prefWidth="400.0">
+               <children>
+                  <Label layoutX="35.0" layoutY="114.0" styleClass="login-border" stylesheets="@style.css" text="Login Account">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="usernamelog" layoutX="81.0" layoutY="208.0" prefHeight="30.0" prefWidth="238.0" promptText="Username" />
+                  <PasswordField fx:id="passwordlog" layoutX="81.0" layoutY="287.0" prefHeight="30.0" prefWidth="238.0" promptText="Password" />
+                  <Button fx:id="loginbtnlog2" layoutX="81.0" layoutY="404.0" mnemonicParsing="false" onAction="#loginbtn" prefHeight="40.0" prefWidth="238.0" styleClass="btn" stylesheets="@style.css" text="Admin Login" />
+                  <Hyperlink layoutX="81.0" layoutY="348.0" onAction="#switchForgetPass" text="Forget Password" />
+                  <Button fx:id="loginbtnlog1" layoutX="81.0" layoutY="463.0" mnemonicParsing="false" onAction="#loginbtn2" prefHeight="40.0" prefWidth="238.0" styleClass="btn" stylesheets="@style.css" text="User Login" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="600.0" prefWidth="400.0" styleClass="left-side1" stylesheets="@style.css">
+               <children>
+                  <Label alignment="CENTER" layoutX="105.0" layoutY="431.0" prefHeight="30.0" prefWidth="181.0" text="Create Account" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="createbtnlog" contentDisplay="CENTER" layoutX="81.0" layoutY="501.0" mnemonicParsing="false" onAction="#switchtoCreateAcc" prefHeight="40.0" prefWidth="238.0" styleClass="btn" stylesheets="@style.css" text=" Create new Account" />
+                  <FontAwesomeIcon fill="#dbec1d" glyphName="BOOK" layoutX="129.0" layoutY="291.0" selectionEnd="1" size="12em" wrappingWidth="119.69996356964111">
+                     <font>
+                        <Font size="67.0" />
+                     </font>
+                  </FontAwesomeIcon>
+                  <Label layoutX="138.0" layoutY="333.0" text="BookStore" textFill="#ef3716">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
