@@ -2,24 +2,40 @@ package org.example.bs;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
+import static javafx.fxml.FXMLLoader.load;
+
 public class UserPage  implements Initializable {
+    private Stage stage;
+    private Scene scene;
     private Connection connect;
     private PreparedStatement prepare;
     private Statement statement;
     private ResultSet resultSet;
     private Error error;
+
+    @FXML
+    private TableColumn<ProductDeta, String> productname;
+
+    @FXML
+    private TableColumn<ProductDeta, String> productprice;
+
+    @FXML
+    private TableView<ProductDeta> producttableview;
     @FXML
     private Button Menubtn;
 
@@ -49,6 +65,12 @@ public class UserPage  implements Initializable {
 
     @FXML
     private TextField textAuthor;
+
+    @FXML
+    private TextArea AddressArea;
+
+    @FXML
+    private Button SignOutbtn;
 
     @FXML
     private TextField textDescription;
@@ -149,15 +171,26 @@ public class UserPage  implements Initializable {
 
                     prepare.executeUpdate();
 
-                    error = new Error();
-                    error.update("Successfully Added.");
                     textQuantity.setText("");
+                    AddressArea.setText("");
 
             }catch (Exception e){e.printStackTrace();}
 
+            try{
+                String insertdeta = "INSERT INTO product" +
+                        " (namebook,pricee)" +"VALUES(?,?)";
+                prepare = connect.prepareStatement(insertdeta);
+                prepare.setString(1,textProductname.getText());
+                prepare.setString(2,textPrice.getText());
+
+                prepare.executeUpdate();
+
+                error = new Error();
+                error.update("Successfully");
+
+            }catch (Exception e){e.printStackTrace();}
         }
     }
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

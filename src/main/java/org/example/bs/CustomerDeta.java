@@ -12,8 +12,7 @@ public class CustomerDeta  {
 
     public CustomerDeta(int id, String ID,
                         String Name,String Type,
-                        Double price, Integer Quantity,
-                        String customername,Date date)
+                        Double price, Integer Quantity,Date date)
     {
         this.id = id;
         this.ID = ID;
@@ -21,7 +20,6 @@ public class CustomerDeta  {
         this.Type = Type;
         this.price = price;
         this.Quantity = Quantity;
-        this.customername = customername;
         this.date = date;
 
     }

@@ -2,18 +2,26 @@ package org.example.bs;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
+
+import static javafx.fxml.FXMLLoader.load;
 
 
 public class CustomerPage extends HelloController implements Initializable {
@@ -49,7 +57,6 @@ public class CustomerPage extends HelloController implements Initializable {
     private TextField buytotalincome;
     private Connection connect;
     private PreparedStatement prepare;
-    private Statement statement;
     private ResultSet resultSet;
 
     public ObservableList<CustomerDeta> detaList() throws SQLException {
@@ -68,7 +75,6 @@ public class CustomerPage extends HelloController implements Initializable {
                         resultSet.getString("type"),
                         resultSet.getDouble("price"),
                         resultSet.getInt("Quantity"),
-                        resultSet.getString("customername"),
                         resultSet.getDate("date"));
                 listdeta.add(CD);
             }
@@ -76,6 +82,15 @@ public class CustomerPage extends HelloController implements Initializable {
             e.printStackTrace();
         }
         return listdeta;
+    }
+    private Stage stage;
+    private Scene scene;
+    public void back(ActionEvent event) throws IOException {
+        Parent root = load(getClass().getResource("Adminpage.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     private ObservableList<CustomerDeta> List;
@@ -87,7 +102,6 @@ public class CustomerPage extends HelloController implements Initializable {
         buyType.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("Type"));
         buyPrice.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("Price"));
         buyQuantity.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("Quantity"));
-        buycustomName.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("CustomerName"));
         buyDate.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("Date"));
 
         buytableview.setItems(List);

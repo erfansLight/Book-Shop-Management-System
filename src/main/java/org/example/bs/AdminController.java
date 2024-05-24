@@ -228,9 +228,9 @@ public class AdminController extends HelloController implements Initializable {
             }catch (Exception e){e.printStackTrace();}
         }
     }
-    public void customerbtn(ActionEvent event2) throws IOException {
-        Parent root = load(getClass().getResource("Customers.fxml"));//*********
-        stage = (Stage) ((Node) event2.getSource()).getScene().getWindow();
+    public void customerbtn(ActionEvent event) throws IOException {
+        Parent root = load(getClass().getResource("Customers.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
