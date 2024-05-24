@@ -19,7 +19,7 @@ import java.sql.SQLException;
 
 import static javafx.fxml.FXMLLoader.load;
 
-public class ChangePass {
+public class ChangePass extends HelloController{
     @FXML
     private DatePicker fpbirthday;
     @FXML
@@ -41,13 +41,13 @@ public class ChangePass {
     private String rename;
 
 
-    public void switchtoLogin(ActionEvent event) throws IOException {
-        Parent root = load(getClass().getResource("hello-view.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
+//    public void switchtoLogin(ActionEvent event) throws IOException {
+//        Parent root = load(getClass().getResource("hello-view.fxml"));
+//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+//    }
     public void switchForgetPass(ActionEvent event) throws IOException {
         Parent root = load(getClass().getResource("ForgetPass.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -68,6 +68,7 @@ public class ChangePass {
             }
             String checkdeta = "SELECT name, city, Date FROM information WHERE name =? and city =? and Date =?";
             try{
+                Static.name =fpusername.getText();
                 prepare = connect.prepareStatement(checkdeta);
                 prepare.setString(1,fpusername.getText());
                 prepare.setString(2,fpfavoritecity.getText());
@@ -102,7 +103,8 @@ public class ChangePass {
             }
             try{
                 System.out.println(rename);
-                String updatep = "UPDATE information SET password = '" + nPass.getText()+"'";
+                String updatep = "UPDATE information SET password = '" + nPass.getText()+"' WHERE name = '"
+                        +Static.name+"'";
                 prepare = connect.prepareStatement(updatep);
                 prepare.executeUpdate();
                 error = new Error();
