@@ -29,14 +29,6 @@ public class UserPage  implements Initializable {
     private Error error;
 
     @FXML
-    private TableColumn<ProductDeta, String> productname;
-
-    @FXML
-    private TableColumn<ProductDeta, String> productprice;
-
-    @FXML
-    private TableView<ProductDeta> producttableview;
-    @FXML
     private Button Menubtn;
 
     @FXML
@@ -176,20 +168,27 @@ public class UserPage  implements Initializable {
 
             }catch (Exception e){e.printStackTrace();}
 
-            try{
-                String insertdeta = "INSERT INTO product" +
-                        " (namebook,pricee)" +"VALUES(?,?)";
-                prepare = connect.prepareStatement(insertdeta);
-                prepare.setString(1,textProductname.getText());
-                prepare.setString(2,textPrice.getText());
-
-                prepare.executeUpdate();
-
-                error = new Error();
-                error.update("Successfully");
-
-            }catch (Exception e){e.printStackTrace();}
+//            try{
+//                String insertdeta = "INSERT INTO product" +
+//                        " (namebook,pricee)" +"VALUES(?,?)";
+//                prepare = connect.prepareStatement(insertdeta);
+//                prepare.setString(1,textProductname.getText());
+//                prepare.setString(2,textPrice.getText());
+//
+//                prepare.executeUpdate();
+//
+//                error = new Error();
+//                error.update("Successfully");
+//
+//            }catch (Exception e){e.printStackTrace();}
         }
+    }
+    public void Signout(ActionEvent event) throws IOException {
+        Parent root = load(getClass().getResource("hello-view.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @Override
