@@ -92,6 +92,7 @@ public class HelloController implements Initializable {
         stage.show();
     }
     public void loginbtn2(ActionEvent event3) throws IOException {
+        Static.name = usernamelog.getText();
         if (usernamelog.getText().isEmpty() || passwordlog.getText().isEmpty()) {
             error = new Error();
             error.setfield("Invalid information.");
@@ -109,7 +110,7 @@ public class HelloController implements Initializable {
                 prepare.setString(2, passwordlog.getText());
                 resultSet = prepare.executeQuery();
                 if (resultSet.next()) {
-                    Parent root = load(getClass().getResource("ForgetPass.fxml"));//*********
+                    Parent root = load(getClass().getResource("UserPage.fxml"));//*********
                     stage = (Stage) ((Node) event3.getSource()).getScene().getWindow();
                     scene = new Scene(root);
                     stage.setScene(scene);

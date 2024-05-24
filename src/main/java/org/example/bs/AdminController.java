@@ -2,11 +2,8 @@ package org.example.bs;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -15,14 +12,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
 
 import static javafx.fxml.FXMLLoader.load;
 
@@ -230,7 +224,7 @@ public class AdminController extends HelloController implements Initializable {
             }catch (Exception e){e.printStackTrace();}
         }
     }
-    public void Deletbtn() throws SQLException {
+    public void Deletebtn() throws SQLException {
         if(Static.id == 0){
             error = new Error();
             error.setfield("Please fill out all field");
@@ -255,6 +249,5 @@ public class AdminController extends HelloController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 }
