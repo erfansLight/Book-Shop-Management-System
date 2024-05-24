@@ -19,23 +19,19 @@ import java.util.ResourceBundle;
 
 import static javafx.fxml.FXMLLoader.load;
 
-public class UserPage implements Initializable {
+public class UserPageController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Connection connect;
     private PreparedStatement prepare;
-    private Statement statement;
     private ResultSet resultSet;
     private Error error;
-
-    @FXML
-    private TextField Searchtext;
 
     @FXML
     private TableView<BookDeta> Usertableview;
 
     @FXML
-    private TableColumn<BookDeta, String> costomName;
+    private TableColumn<BookDeta, String> customName;
 
     @FXML
     private TableColumn<BookDeta, String> customAuthor;
@@ -59,9 +55,6 @@ public class UserPage implements Initializable {
     private TextField textAuthor;
 
     @FXML
-    private Button SignOutbtn;
-
-    @FXML
     private TextField textDescription;
 
     @FXML
@@ -69,8 +62,6 @@ public class UserPage implements Initializable {
 
     @FXML
     private TextField textProductname;
-    @FXML
-    private TextField textname;
 
     @FXML
     private TextField textQuantity;
@@ -113,7 +104,7 @@ public class UserPage implements Initializable {
     public void showDetalist() throws SQLException {
         List = detaList();
         customID.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("ID"));
-        costomName.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Name"));
+        customName.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Name"));
         customType.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Type"));
         customDescription.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Description"));
         customPrice.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Price"));
@@ -135,10 +126,7 @@ public class UserPage implements Initializable {
         Static.id = bt.getId();
     }
     public void Addbtn() throws SQLException {
-        if (textproductID.getText().isEmpty() || textProductname.getText().isEmpty() ||
-                textType.getText().isEmpty() || textAuthor.getText().isEmpty() ||
-                textPrice.getText().isEmpty() || textDescription.getText().isEmpty() ||
-                textQuantity.getText().isEmpty()) {
+        if (textQuantity.getText().isEmpty()) {
             error = new Error();
             error.setfield("Please fill out all field");
         } else {
@@ -186,6 +174,50 @@ public class UserPage implements Initializable {
     }
     public void search(ActionEvent event) throws IOException {
         Parent root = load(getClass().getResource("Search.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    public void Wishbtn() throws SQLException {
+        if (textproductID.getText().isEmpty() || textProductname.getText().isEmpty() ||
+                textType.getText().isEmpty() || textAuthor.getText().isEmpty() ||
+                textPrice.getText().isEmpty() || textDescription.getText().isEmpty()) {
+            error = new Error();
+            error.setfield("Please fill out all field");
+        } else {
+            try {
+                String insertdeta = "INSERT INTO WishList" +
+                        " (bookid, bookname, type, price, Description, Author, customername, date)" +
+                        "VALUES(?,?,?,?,?,?,?,?)";
+                prepare = connect.prepareStatement(insertdeta);
+                prepare = connect.prepareStatement(insertdeta);
+                prepare.setString(1, textproductID.getText());
+                prepare.setString(2, textProductname.getText());
+                prepare.setString(3, textType.getText());
+                prepare.setString(4, textPrice.getText());
+                prepare.setString(5, textDescription.getText());
+                prepare.setString(6, textAuthor.getText());
+                prepare.setString(7, Static.name);
+
+                java.util.Date date = new java.util.Date();
+                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                prepare.setString(8, String.valueOf(sqlDate));
+
+                prepare.executeUpdate();
+
+                error = new Error();
+                error.update("Successful");
+
+                textQuantity.setText("");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void showwishbtn(ActionEvent event) throws IOException {
+        Parent root = load(getClass().getResource("WishList.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

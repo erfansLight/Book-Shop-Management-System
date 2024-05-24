@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 
 import static javafx.fxml.FXMLLoader.load;
 
-public class Checkpage implements Initializable {
+public class CheckpageController implements Initializable {
     private Connection connect;
     private PreparedStatement prepare;
     private Error error;

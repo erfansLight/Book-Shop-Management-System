@@ -13,7 +13,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -24,7 +23,7 @@ import java.util.ResourceBundle;
 import static javafx.fxml.FXMLLoader.load;
 
 
-public class CustomerPage extends HelloController implements Initializable {
+public class CustomerPageController extends HelloController implements Initializable {
     @FXML
     private Button buyBack;
 
