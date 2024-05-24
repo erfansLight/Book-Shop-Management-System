@@ -34,7 +34,7 @@
                         <Button layoutX="2.0" layoutY="319.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="196.0" styleClass="navbtn" stylesheets="@style.css" text="WishList" textFill="WHITE" />
                         <TextField layoutX="5.0" layoutY="95.0" prefHeight="26.0" prefWidth="193.0" promptText="book name" />
                         <Button layoutX="59.0" layoutY="130.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" styleClass="navbtn" stylesheets="@style.css" text="Search" textFill="WHITE" />
-                        <Button layoutX="2.0" layoutY="535.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="196.0" styleClass="navbtn" stylesheets="@style.css" text="SignOut" textFill="WHITE" />
+                        <Button fx:id="SignOutbtn" layoutX="2.0" layoutY="535.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="196.0" styleClass="navbtn" stylesheets="@style.css" text="SignOut" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                </left>
@@ -54,7 +54,7 @@
                               </TableView>
                            </children>
                         </AnchorPane>
-                        <TextArea layoutX="1.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0" promptText="Address:" />
+                        <TextArea fx:id="AddressArea" layoutX="1.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0" promptText="Address:" />
                         <Button layoutX="33.0" layoutY="455.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="135.0" styleClass="navbtn" stylesheets="@style.css" text="Buy" textFill="WHITE" />
                      </children>
                   </AnchorPane>

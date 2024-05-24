@@ -33,7 +33,7 @@
                               <AnchorPane layoutY="44.0" prefHeight="555.0" prefWidth="218.0" styleClass="nav" stylesheets="@style.css">
                                  <children>
                                     <Button fx:id="dashbordbtn" layoutX="11.0" layoutY="153.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="196.0" styleClass="navbtn" stylesheets="@style.css" text="Dashbord" textFill="WHITE" />
-                                    <Button fx:id="customersbtn" layoutX="11.0" layoutY="223.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="196.0" styleClass="navbtn" stylesheets="@style.css" text="Customers" />
+                                    <Button fx:id="customersbtn" layoutX="11.0" layoutY="223.0" mnemonicParsing="false" onAction="#customerbtn" prefHeight="44.0" prefWidth="196.0" styleClass="navbtn" stylesheets="@style.css" text="Customers" />
                                     <Button fx:id="signoutbtn" layoutX="13.0" layoutY="509.0" mnemonicParsing="false" onAction="#switchtoLogin" prefHeight="40.0" prefWidth="188.0" styleClass="navbtn" stylesheets="@style.css" text="Sign Out">
                                        <font>
                                           <Font size="14.0" />
