@@ -22,11 +22,12 @@
                      </font>
                   </Label>
                   <TextField fx:id="usernameCR" layoutX="80.0" layoutY="203.0" prefHeight="30.0" prefWidth="238.0" promptText="Username" />
-                  <PasswordField fx:id="passwordCR" layoutX="80.0" layoutY="269.0" prefHeight="30.0" prefWidth="238.0" promptText="Password" />
+                  <PasswordField fx:id="passwordCR" layoutX="79.0" layoutY="246.0" prefHeight="30.0" prefWidth="238.0" promptText="Password" />
                   <Button fx:id="createbtnCR" layoutX="80.0" layoutY="503.0" mnemonicParsing="false" onAction="#createACbtn" prefHeight="40.0" prefWidth="238.0" styleClass="btn" stylesheets="@style.css" text="Create" textFill="WHITE" />
-                  <FontAwesomeIcon glyphName="QUESTION" layoutX="325.0" layoutY="359.0" size="2em" />
-                  <TextField fx:id="QuestionCR" layoutX="80.0" layoutY="338.0" prefHeight="30.0" prefWidth="238.0" promptText="What is your favorite city?" />
-                  <DatePicker fx:id="dateCR" layoutX="80.0" layoutY="401.0" prefHeight="30.0" prefWidth="238.0" promptText="Your Birthday" />
+                  <FontAwesomeIcon glyphName="QUESTION" layoutX="331.0" layoutY="314.0" size="2em" />
+                  <TextField fx:id="QuestionCR" layoutX="79.0" layoutY="291.0" prefHeight="30.0" prefWidth="238.0" promptText="What is your favorite city?" />
+                  <DatePicker fx:id="dateCR" layoutX="79.0" layoutY="373.0" prefHeight="30.0" prefWidth="238.0" promptText="Your Birthday" />
+                  <TextField fx:id="roleCR" layoutX="79.0" layoutY="332.0" prefHeight="30.0" prefWidth="238.0" promptText="admin/user" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="400.0" layoutY="2.0" prefHeight="600.0" prefWidth="400.0" styleClass="right-side" stylesheets="@style.css">

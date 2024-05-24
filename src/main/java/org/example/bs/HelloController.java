@@ -48,6 +48,9 @@ public class HelloController implements Initializable {
     private Button loginbtnlog;
 
     @FXML
+    private TextField roleCR;
+
+    @FXML
     private PasswordField passwordlog;
 
     @FXML
@@ -156,15 +159,16 @@ public class HelloController implements Initializable {
 
     public void createACbtn() throws SQLException {
         if (usernameCR.getText().isEmpty() || passwordCR.getText().isEmpty() ||
-                QuestionCR.getText().isEmpty() || dateCR.getValue() == null) {//*********
+                QuestionCR.getText().isEmpty() || dateCR.getValue() == null ||
+            roleCR.getText().isEmpty()) {//*********
             error = new Error();
             error.setfield("Please fill out all field");
         } else if (passwordCR.getText().length() < 5) {
             error = new Error();
             error.setfield("Your password should have at least 5 characters.");
         } else {
-            String signdeta = "INSERT INTO information (name , password, city,Date)" +
-                    "VALUES(?,?,?,?)";
+            String signdeta = "INSERT INTO information (name , password, city,Date, role)" +
+                    "VALUES(?,?,?,?,?)";
             connect = Detabase.CODB();
             try {
                 String checkname = "SELECT name FROM information WHERE name = '" +
@@ -180,6 +184,7 @@ public class HelloController implements Initializable {
                     prepare.setString(2, passwordCR.getText());
                     prepare.setString(3, QuestionCR.getText());
                     prepare.setString(4, String.valueOf(dateCR.getValue()));//*******
+                    prepare.setString(5,roleCR.getText());
                     prepare.executeUpdate();
 
                     error = new Error();
@@ -188,6 +193,7 @@ public class HelloController implements Initializable {
                     usernameCR.setText("");
                     passwordCR.setText("");
                     QuestionCR.setText("");
+                    roleCR.setText("");
                     dateCR.setValue(LocalDate.parse("2020-05-01"));
                 }
             } catch (Exception e) {
