@@ -25,9 +25,9 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button layoutX="41.0" layoutY="534.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="84.0" styleClass="btn" stylesheets="@style.css" text="Back" />
-            <TextField fx:id="textsearch" layoutX="253.0" layoutY="14.0" prefHeight="26.0" prefWidth="235.0" />
-            <Button layoutX="345.0" layoutY="57.0" mnemonicParsing="false" onAction="#search" text="Button" />
+            <Button layoutX="41.0" layoutY="534.0" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="84.0" styleClass="btn" stylesheets="@style.css" text="Back" />
+            <TextField fx:id="textsearch" layoutX="253.0" layoutY="14.0" prefHeight="26.0" prefWidth="235.0" promptText="book name" />
+            <Button layoutX="345.0" layoutY="57.0" mnemonicParsing="false" onAction="#search" styleClass="btn" stylesheets="@style.css" text="Search" />
          </children>
       </AnchorPane>
    </children>
