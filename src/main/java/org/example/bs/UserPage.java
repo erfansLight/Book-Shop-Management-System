@@ -29,7 +29,7 @@ public class UserPage implements Initializable {
     private Error error;
 
     @FXML
-    private Button Menubtn;
+    private TextField Searchtext;
 
     @FXML
     private TableView<BookDeta> Usertableview;
@@ -57,9 +57,6 @@ public class UserPage implements Initializable {
 
     @FXML
     private TextField textAuthor;
-
-    @FXML
-    private TextArea AddressArea;
 
     @FXML
     private Button SignOutbtn;
@@ -187,6 +184,14 @@ public class UserPage implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    public void search(ActionEvent event) throws IOException {
+        Parent root = load(getClass().getResource("Search.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

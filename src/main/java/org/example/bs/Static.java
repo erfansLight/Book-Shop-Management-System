@@ -6,5 +6,6 @@ public class Static {
     public static Integer id;
     public static Integer cid;
     public static String cdate;
+    public static String search;
 
 }

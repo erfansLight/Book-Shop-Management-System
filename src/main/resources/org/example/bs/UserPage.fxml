@@ -31,8 +31,7 @@
                         </AnchorPane>
                         <Button fx:id="Menubtn" layoutX="2.0" layoutY="233.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="196.0" styleClass="navbtn" stylesheets="@style.css" text="Menu" textFill="WHITE" />
                         <Button layoutX="2.0" layoutY="319.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="196.0" styleClass="navbtn" stylesheets="@style.css" text="WishList" textFill="WHITE" />
-                        <TextField layoutX="5.0" layoutY="95.0" prefHeight="26.0" prefWidth="193.0" promptText="book name" />
-                        <Button layoutX="59.0" layoutY="130.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" styleClass="navbtn" stylesheets="@style.css" text="Search" textFill="WHITE" />
+                        <Button layoutX="2.0" layoutY="128.0" mnemonicParsing="false" onAction="#search" prefHeight="44.0" prefWidth="196.0" styleClass="navbtn" stylesheets="@style.css" text="Search Page" textFill="WHITE" />
                         <Button fx:id="SignOutbtn" layoutX="2.0" layoutY="535.0" mnemonicParsing="false" onAction="#Signout" prefHeight="44.0" prefWidth="196.0" styleClass="navbtn" stylesheets="@style.css" text="SignOut" textFill="WHITE" />
                      </children>
                   </AnchorPane>
