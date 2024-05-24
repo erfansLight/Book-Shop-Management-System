@@ -145,29 +145,6 @@ public class UserPage implements Initializable {
             error = new Error();
             error.setfield("Please fill out all field");
         } else {
-
-            connect = Detabase.CODB();
-            try {
-                String insertdeta = "INSERT INTO customer" +
-                        " (bookid, bookname, type, price, Quantity,customername, date)" + "VALUES(?,?,?,?,?,?,?)";
-                prepare = connect.prepareStatement(insertdeta);
-                prepare.setString(1, textproductID.getText());
-                prepare.setString(2, textProductname.getText());
-                prepare.setString(3, textType.getText());
-                prepare.setString(4, textPrice.getText());
-                prepare.setString(5, textQuantity.getText());
-                prepare.setString(6, Static.name);
-                java.util.Date date = new java.util.Date();
-                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                prepare.setString(7, String.valueOf(sqlDate));
-
-                prepare.executeUpdate();
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
             try {
                 String insertdeta2 = "INSERT INTO checkpage" +
                         " (bookid, bookname, type, price, Quantity, date)" + "VALUES(?,?,?,?,?,?)";
@@ -186,7 +163,7 @@ public class UserPage implements Initializable {
                 prepare.executeUpdate();
 
                 error = new Error();
-                error.update("Successfull");
+                error.update("Successful");
 
                 textQuantity.setText("");
 
