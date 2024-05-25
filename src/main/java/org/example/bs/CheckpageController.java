@@ -133,7 +133,7 @@ public class CheckpageController implements Initializable {
             connect = Detabase.CODB();
             try {
                 String insertdeta = "INSERT INTO customer" +
-                        " (bookid, bookname, type, price, Quantity,customername, date)" + "VALUES(?,?,?,?,?,?,?)";
+                        " (bookid, bookname, type, price, Quantity,customername, Total, date)" + "VALUES(?,?,?,?,?,?,?,?)";
                 prepare = connect.prepareStatement(insertdeta);
                 prepare.setString(1, textcheckID.getText());
                 prepare.setString(2, textcheckname.getText());
@@ -141,9 +141,11 @@ public class CheckpageController implements Initializable {
                 prepare.setString(4, textcheckprice.getText());
                 prepare.setString(5, textQu.getText());
                 prepare.setString(6, Static.name);
+                prepare.setDouble(7, Double.parseDouble(textcheckprice.getText())*
+                        Double.parseDouble(textQu.getText()));
                 java.util.Date date = new java.util.Date();
                 java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                prepare.setString(7, String.valueOf(sqlDate));
+                prepare.setString(8, String.valueOf(sqlDate));
 
                 prepare.executeUpdate();
 

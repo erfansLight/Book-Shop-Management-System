@@ -27,6 +27,9 @@ public class CustomerPageController extends HelloController implements Initializ
     @FXML
     private Button buyBack;
 
+    @FXML
+    private TextField TI;
+
 
     @FXML
     private TableView<CustomerDeta> buytableview;
@@ -105,11 +108,30 @@ public class CustomerPageController extends HelloController implements Initializ
 
         buytableview.setItems(List);
     }
+    private Double totalincome;
+    public void total() throws SQLException {
+        String total = "SELECT SUM(Total) FROM customer";
+        connect = Detabase.CODB();
+        try{
+            prepare = connect.prepareStatement(total);
+            resultSet = prepare.executeQuery();
+            if(resultSet.next()){
+                totalincome = resultSet.getDouble("SUM(Total)");
+            }
+            TI.setText("$"+totalincome);
+
+        }catch (Exception e){e.printStackTrace();}
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             showDetalist();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            total();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
