@@ -14,7 +14,7 @@
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <AnchorPane layoutY="3.0" prefHeight="600.0" prefWidth="400.0">
+            <AnchorPane layoutY="3.0" prefHeight="600.0" prefWidth="400.0" styleClass="side" stylesheets="@style.css">
                <children>
                   <Label layoutX="24.0" layoutY="105.0" styleClass="login-border" stylesheets="@style.css" text="Register Account">
                      <font>
@@ -32,12 +32,12 @@
             </AnchorPane>
             <AnchorPane layoutX="400.0" layoutY="2.0" prefHeight="600.0" prefWidth="400.0" styleClass="right-side" stylesheets="@style.css">
                <children>
-                  <FontAwesomeIcon fill="#dbec1d" glyphName="BOOK" layoutX="132.0" layoutY="278.0" size="12em">
+                  <FontAwesomeIcon fill="#ffea00" glyphName="BOOK" layoutX="132.0" layoutY="278.0" size="12em">
                      <font>
                         <Font size="67.0" />
                      </font>
                   </FontAwesomeIcon>
-                  <Label layoutX="142.0" layoutY="319.0" text="BookStore" textFill="#ef3716">
+                  <Label layoutX="142.0" layoutY="319.0" text="Book Store" textFill="#00ff22e0">
                      <font>
                         <Font size="25.0" />
                      </font>

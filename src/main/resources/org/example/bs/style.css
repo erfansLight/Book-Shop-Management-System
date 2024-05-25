@@ -1,11 +1,11 @@
 .left-side1{
-    -fx-background-color: linear-gradient(to bottom right, #1a2d56, #1350ea);
+    -fx-background-color: linear-gradient(to bottom right, #022BF7, #02F7BF);
 }
 .left-side2{
     -fx-background-color: linear-gradient(to bottom right, #0f6789, #286155);
 }
 .right-side{
-    -fx-background-color: linear-gradient(to bottom left, #1a2d56, #1350ea);
+    -fx-background-color: linear-gradient(to bottom left, #022BF7, #02F7BF);
 }
 .login-border{
     -fx-border-color: #286155;
@@ -61,4 +61,7 @@
 }
 .table .column-header .label{
 -fx-text-fill: #fff;
+}
+.side{
+-fx-background-color: #fff;
 }
