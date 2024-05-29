@@ -62,7 +62,8 @@ public class SearchController implements Initializable {
     }
     public ObservableList<BookDeta> detaList() throws SQLException {
         ObservableList<BookDeta> listdeta = FXCollections.observableArrayList();
-        String myadmin = "SELECT * FROM bookdeta WHERE bookname = '"+Static.search+"'";
+        String myadmin = "SELECT * FROM bookdeta WHERE bookname = '"+Static.search+"' OR Author = '"
+                +Static.search+"'";
         connect = Detabase.CODB();
 
         try {

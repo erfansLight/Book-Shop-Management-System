@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -26,8 +27,10 @@
                </columnResizePolicy>
             </TableView>
             <Button layoutX="41.0" layoutY="534.0" mnemonicParsing="false" onAction="#back" prefHeight="40.0" prefWidth="84.0" styleClass="btn" stylesheets="@style.css" text="Back" />
-            <TextField fx:id="textsearch" layoutX="253.0" layoutY="14.0" prefHeight="26.0" prefWidth="235.0" promptText="book name" />
-            <Button layoutX="345.0" layoutY="57.0" mnemonicParsing="false" onAction="#search" styleClass="btn" stylesheets="@style.css" text="Search" />
+            <TextField fx:id="textsearch" layoutX="278.0" layoutY="22.0" prefHeight="26.0" prefWidth="235.0" promptText="Book name / Aothor" AnchorPane.leftAnchor="280.0" AnchorPane.rightAnchor="280.0" />
+            <Button alignment="BOTTOM_LEFT" layoutX="358.0" layoutY="54.0" mnemonicParsing="false" onAction="#search" prefHeight="30.0" prefWidth="84.0" styleClass="btn" stylesheets="@style.css" text="Search" AnchorPane.leftAnchor="358.0" AnchorPane.rightAnchor="358.79999999999995" />
+            <FontAwesomeIcon fill="WHITE" glyphName="ANGLE_LEFT" layoutX="60.0" layoutY="562.0" size="2em" />
+            <FontAwesomeIcon fill="WHITE" glyphName="SEARCH" layoutX="417.0" layoutY="75.0" size="1.5em" />
          </children>
       </AnchorPane>
    </children>
