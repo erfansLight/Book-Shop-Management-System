@@ -51,8 +51,6 @@ public class WishController implements Initializable {
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet resultSet;
-    private Stage stage;
-    private Scene scene;
 
     public ObservableList<BookDeta> detaList() throws SQLException {
         ObservableList<BookDeta> listdeta = FXCollections.observableArrayList();
@@ -93,11 +91,8 @@ public class WishController implements Initializable {
         wishtable.setItems(List);
     }
     public void back(ActionEvent event) throws IOException {
-        Parent root = load(getClass().getResource("UserPage.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        Switch s1 = new Switch();
+        s1.switchto(event, "UserPage.fxml");
     }
 
     @Override

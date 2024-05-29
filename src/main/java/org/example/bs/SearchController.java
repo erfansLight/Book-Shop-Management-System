@@ -102,11 +102,8 @@ public class SearchController implements Initializable {
         searchtable.setItems(LI);
     }
     public void back(ActionEvent event) throws IOException {
-        Parent root = load(getClass().getResource("UserPage.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        Switch s1 = new Switch();
+        s1.switchto(event, "UserPage.fxml");
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

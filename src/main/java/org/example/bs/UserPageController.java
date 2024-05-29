@@ -159,25 +159,16 @@ public class UserPageController implements Initializable {
     }
 
     public void Signout(ActionEvent event) throws IOException {
-        Parent root = load(getClass().getResource("hello-view.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        Switch s1 = new Switch();
+        s1.switchto(event, "hello-view.fxml");
     }
     public void next(ActionEvent event) throws IOException {
-        Parent root = load(getClass().getResource("checkpage.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        Switch s1 = new Switch();
+        s1.switchto(event, "checkpage.fxml");
     }
     public void search(ActionEvent event) throws IOException {
-        Parent root = load(getClass().getResource("Search.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        Switch s1 = new Switch();
+        s1.switchto(event, "Search.fxml");
     }
     public void Wishbtn() throws SQLException {
         if (textproductID.getText().isEmpty() || textProductname.getText().isEmpty() ||
@@ -217,11 +208,8 @@ public class UserPageController implements Initializable {
         }
     }
     public void showwishbtn(ActionEvent event) throws IOException {
-        Parent root = load(getClass().getResource("WishList.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        Switch s1 = new Switch();
+        s1.switchto(event, "WishList.fxml");
     }
 
 

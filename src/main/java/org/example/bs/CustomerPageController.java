@@ -88,11 +88,8 @@ public class CustomerPageController extends HelloController implements Initializ
     private Stage stage;
     private Scene scene;
     public void back(ActionEvent event) throws IOException {
-        Parent root = load(getClass().getResource("Adminpage.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        Switch s1 = new Switch();
+        s1.switchto(event, "Adminpage.fxml");
     }
 
     private ObservableList<CustomerDeta> List;
