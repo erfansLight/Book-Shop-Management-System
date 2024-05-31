@@ -65,25 +65,13 @@ public class HelloController implements Initializable {
     private Error error;
 
     public void switchtoCreateAcc(ActionEvent event) throws IOException {
-//        Parent root = load(getClass().getResource(""));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
         Switch s1 = new Switch();
         s1.switchto(event, "CreateAccount.fxml");
     }
 
     public void switchtoLogin(ActionEvent event) throws IOException {
-//        Parent root = load(getClass().getResource(""));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
         Switch s1 = new Switch();
         s1.switchto(event, "hello-view.fxml");
-
-
     }
 
     public void switchForgetPass(ActionEvent event) throws IOException {
@@ -154,7 +142,7 @@ public class HelloController implements Initializable {
     public void createACbtn() throws SQLException {
         if (usernameCR.getText().isEmpty() || passwordCR.getText().isEmpty() ||
                 QuestionCR.getText().isEmpty() || dateCR.getValue() == null ||
-            roleCR.getText().isEmpty()) {//*********
+            roleCR.getText().isEmpty()) {
             error = new Error();
             error.setfield("Please fill out all field");
         } else if (passwordCR.getText().length() < 5) {

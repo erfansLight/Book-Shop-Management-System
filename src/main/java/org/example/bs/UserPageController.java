@@ -118,6 +118,7 @@ public class UserPageController implements Initializable {
         textDescription.setText(bt.getDescription());
         Static.id = bt.getId();
     }
+
     public void Addbtn() throws SQLException {
         if (textQuantity.getText().isEmpty()) {
             error = new Error();
@@ -155,14 +156,17 @@ public class UserPageController implements Initializable {
         Switch s1 = new Switch();
         s1.switchto(event, "hello-view.fxml");
     }
+
     public void next(ActionEvent event) throws IOException {
         Switch s1 = new Switch();
         s1.switchto(event, "checkpage.fxml");
     }
+
     public void search(ActionEvent event) throws IOException {
         Switch s1 = new Switch();
         s1.switchto(event, "Search.fxml");
     }
+
     public void Wishbtn() throws SQLException {
         if (textproductID.getText().isEmpty() || textProductname.getText().isEmpty() ||
                 textType.getText().isEmpty() || textAuthor.getText().isEmpty() ||
@@ -170,36 +174,46 @@ public class UserPageController implements Initializable {
             error = new Error();
             error.setfield("Please fill out all field");
         } else {
+            connect = Detabase.CODB();
             try {
-                String insertdeta = "INSERT INTO WishList" +
-                        " (bookid, bookname, type, price, Description, Author, customername, date)" +
-                        "VALUES(?,?,?,?,?,?,?,?)";
-                prepare = connect.prepareStatement(insertdeta);
-                prepare = connect.prepareStatement(insertdeta);
-                prepare.setString(1, textproductID.getText());
-                prepare.setString(2, textProductname.getText());
-                prepare.setString(3, textType.getText());
-                prepare.setString(4, textPrice.getText());
-                prepare.setString(5, textDescription.getText());
-                prepare.setString(6, textAuthor.getText());
-                prepare.setString(7, Static.name);
+                String checkname = "SELECT bookname FROM wishlist WHERE bookname = '" +
+                        textProductname.getText() + "'";
+                prepare = connect.prepareStatement(checkname);
+                resultSet = prepare.executeQuery();
+                if (resultSet.next()) {
+                    error = new Error();
+                    error.setfield("This book has already added.");
+                } else {
+                    String insertdeta = "INSERT INTO WishList" +
+                            " (bookid, bookname, type, price, Description, Author, customername, date)" +
+                            "VALUES(?,?,?,?,?,?,?,?)";
+                    prepare = connect.prepareStatement(insertdeta);
+                    prepare = connect.prepareStatement(insertdeta);
+                    prepare.setString(1, textproductID.getText());
+                    prepare.setString(2, textProductname.getText());
+                    prepare.setString(3, textType.getText());
+                    prepare.setString(4, textPrice.getText());
+                    prepare.setString(5, textDescription.getText());
+                    prepare.setString(6, textAuthor.getText());
+                    prepare.setString(7, Static.name);
 
-                java.util.Date date = new java.util.Date();
-                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                prepare.setString(8, String.valueOf(sqlDate));
+                    java.util.Date date = new java.util.Date();
+                    java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                    prepare.setString(8, String.valueOf(sqlDate));
 
-                prepare.executeUpdate();
+                    prepare.executeUpdate();
 
-                error = new Error();
-                error.update("Successful");
+                    error = new Error();
+                    error.update("Successful");
 
-                textQuantity.setText("");
-
+                    textQuantity.setText("");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
+
     public void showwishbtn(ActionEvent event) throws IOException {
         Switch s1 = new Switch();
         s1.switchto(event, "WishList.fxml");
