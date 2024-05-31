@@ -9,6 +9,7 @@ public class CustomerDeta  {
     private String Type;
     private Double price;
     private Integer Quantity;
+    private Date date;
 
     public CustomerDeta(int id, String ID,
                         String Name,String Type,
@@ -48,16 +49,9 @@ public class CustomerDeta  {
         return Quantity;
     }
 
-    public String getCustomername() {
-        return customername;
-    }
-
     public Date getDate() {
         return date;
     }
-
-    private String customername;
-    private Date date;
 
 
 }

@@ -33,7 +33,7 @@
                               <AnchorPane layoutY="44.0" prefHeight="555.0" prefWidth="218.0" styleClass="nav" stylesheets="@style.css">
                                  <children>
                                     <Button fx:id="dashbordbtn" layoutX="11.0" layoutY="153.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="196.0" styleClass="navbtn" stylesheets="@style.css" text="Dashbord" textFill="WHITE" />
-                                    <Button fx:id="customersbtn" layoutX="11.0" layoutY="223.0" mnemonicParsing="false" onAction="#customerbtn" prefHeight="44.0" prefWidth="196.0" styleClass="navbtn" stylesheets="@style.css" text="Customers" />
+                                    <Button fx:id="customersbtn" layoutX="11.0" layoutY="223.0" mnemonicParsing="false" onAction="#customerbtn" prefHeight="44.0" prefWidth="196.0" styleClass="navbtn" stylesheets="@style.css" text="Sales list" />
                                     <Button fx:id="signoutbtn" layoutX="13.0" layoutY="509.0" mnemonicParsing="false" onAction="#switchtoLogin" prefHeight="40.0" prefWidth="188.0" styleClass="navbtn" stylesheets="@style.css" text="Sign Out">
                                        <font>
                                           <Font size="14.0" />
@@ -53,13 +53,13 @@
                            <children>
                               <TableView fx:id="dashbordtableview" layoutX="4.0" layoutY="5.6" onMouseClicked="#Select" prefHeight="277.0" prefWidth="861.0" styleClass="table" stylesheets="@style.css" tableMenuButtonVisible="true" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="5.0">
                                 <columns>
-                                  <TableColumn fx:id="dashcolIDProduct" prefWidth="87.20002841949463" text="ID" />
-                                  <TableColumn fx:id="dashcolProductname" prefWidth="98.40003204345703" text="Name" />
-                                    <TableColumn fx:id="dashcolType" prefWidth="71.19993591308594" text="Type" />
-                                    <TableColumn fx:id="dashcolDescription" prefWidth="89.60004425048828" text="Description" />
-                                    <TableColumn fx:id="dashcolPrice" prefWidth="89.60004425048828" text="Price" />
-                                    <TableColumn fx:id="dashcolAuthor" prefWidth="89.60004425048828" text="Author" />
-                                    <TableColumn fx:id="dashcolDate" prefWidth="89.60004425048828" text="Date" />
+                                  <TableColumn fx:id="dashcolIDProduct" prefWidth="38.39997577667236" text="ID" />
+                                  <TableColumn fx:id="dashcolProductname" prefWidth="120.80002975463867" text="Name" />
+                                    <TableColumn fx:id="dashcolType" prefWidth="108.79997253417969" text="Type" />
+                                    <TableColumn fx:id="dashcolDescription" prefWidth="296.7999572753906" text="Description" />
+                                    <TableColumn fx:id="dashcolPrice" prefWidth="64.79998779296875" text="Price" />
+                                    <TableColumn fx:id="dashcolAuthor" prefWidth="139.20001220703125" text="Author" />
+                                    <TableColumn fx:id="dashcolDate" prefWidth="83.20013427734375" text="Date" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

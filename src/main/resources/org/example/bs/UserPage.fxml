@@ -58,13 +58,13 @@
                            <children>
                               <TableView fx:id="Usertableview" layoutX="4.0" layoutY="7.0" onMouseClicked="#Select" prefHeight="426.0" prefWidth="870.0" styleClass="table" stylesheets="@style.css" tableMenuButtonVisible="true">
                                 <columns>
-                                  <TableColumn fx:id="customID" prefWidth="75.0" text="ID" />
-                                  <TableColumn fx:id="customName" prefWidth="94.4000244140625" text="Name" />
-                                    <TableColumn fx:id="customType" prefWidth="84.79998779296875" text="Type" />
-                                    <TableColumn fx:id="customDescription" prefWidth="101.60003662109375" text="Description" />
-                                    <TableColumn fx:id="customPrice" prefWidth="67.199951171875" text="Price" />
-                                    <TableColumn fx:id="customAuthor" prefWidth="108.0" text="Author" />
-                                    <TableColumn fx:id="customDate" prefWidth="90.4000244140625" text="Date" />
+                                  <TableColumn fx:id="customID" prefWidth="52.79997396469116" text="ID" />
+                                  <TableColumn fx:id="customName" prefWidth="135.99999237060547" text="Name" />
+                                    <TableColumn fx:id="customType" prefWidth="104.79998779296875" text="Type" />
+                                    <TableColumn fx:id="customDescription" prefWidth="286.4000549316406" text="Description" />
+                                    <TableColumn fx:id="customPrice" prefWidth="64.7999267578125" text="Price" />
+                                    <TableColumn fx:id="customAuthor" prefWidth="134.4000244140625" text="Author" />
+                                    <TableColumn fx:id="customDate" prefWidth="80.80010986328125" text="Date" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

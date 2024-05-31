@@ -209,7 +209,7 @@ public class AdminController extends HelloController implements Initializable {
             error = new Error();
             error.setfield("Please fill out all field");
         }else {
-            String Update = "UPDATE bookdeta SET bookid = '"+textProductname.getText()+"', bookname = '"+
+            String Update = "UPDATE bookdeta SET bookid = '"+textproductID.getText()+"', bookname = '"+
                     textProductname.getText()+"', type = '"+textType.getText()+"', Description = '"+
                     textDescription.getText()+"', price = '"+textPrice.getText()+"',Author = '"+
                     textAuthor.getText()+"', date = '"+ Static.date+"' WHERE id = "+Static.id;
