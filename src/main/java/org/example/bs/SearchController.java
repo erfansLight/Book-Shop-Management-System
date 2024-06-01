@@ -5,8 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -22,7 +20,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import static javafx.fxml.FXMLLoader.load;
 
 public class SearchController implements Initializable {
     private Connection connect;
@@ -62,8 +59,8 @@ public class SearchController implements Initializable {
     }
     public ObservableList<BookDeta> detaList() throws SQLException {
         ObservableList<BookDeta> listdeta = FXCollections.observableArrayList();
-        String myadmin = "SELECT * FROM bookdeta WHERE bookname = '"+Static.search+"' OR Author = '"
-                +Static.search+"'";
+        String myadmin = "SELECT * FROM bookdeta WHERE bookname LIKE '%"+Static.search
+                +"%' OR Author LIKE '%"+Static.search+"%'";
         connect = Detabase.CODB();
 
         try {

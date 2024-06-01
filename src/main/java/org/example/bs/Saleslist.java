@@ -5,8 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -23,7 +21,7 @@ import java.util.ResourceBundle;
 import static javafx.fxml.FXMLLoader.load;
 
 
-public class CustomerPageController extends HelloController implements Initializable {
+public class Saleslist extends HelloController implements Initializable {
     @FXML
     private Button buyBack;
 
