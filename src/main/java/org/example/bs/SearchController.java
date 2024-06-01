@@ -25,8 +25,6 @@ public class SearchController implements Initializable {
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet resultSet;
-    private Stage stage;
-    private Scene scene;
     @FXML
     private TableColumn<BookDeta, String> searchDate;
 

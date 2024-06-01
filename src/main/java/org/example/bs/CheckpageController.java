@@ -51,46 +51,47 @@ public class CheckpageController implements Initializable {
     private TextField textchecktype;
 
     @FXML
-    private TableColumn<CustomerDeta, String> checkDate;
+    private TableColumn<SalesDeta, String> checkDate;
 
     @FXML
-    private TableColumn<CustomerDeta, String> checkID;
+    private TableColumn<SalesDeta, String> checkID;
 
     @FXML
-    private TableColumn<CustomerDeta, String> checkName;
+    private TableColumn<SalesDeta, String> checkName;
 
     @FXML
-    private TableColumn<CustomerDeta, String> checkPrice;
+    private TableColumn<SalesDeta, String> checkPrice;
 
     @FXML
-    private TableColumn<CustomerDeta, String> checkQuantity;
+    private TableColumn<SalesDeta, String> checkQuantity;
 
     @FXML
-    private TableColumn<CustomerDeta, String> checkType;
+    private TableColumn<SalesDeta, String> checkType;
 
     @FXML
-    private TableView<CustomerDeta> checktable;
+    private TableView<SalesDeta> checktable;
 
     @FXML
     private TextField textQu;
 
-    public ObservableList<CustomerDeta> detaList() throws SQLException {
-        ObservableList<CustomerDeta> listdeta = FXCollections.observableArrayList();
+    public ObservableList<SalesDeta> detaList() throws SQLException {
+        ObservableList<SalesDeta> listdeta = FXCollections.observableArrayList();
         String myadmin = "SELECT * FROM checkpage";
         connect = Detabase.CODB();
 
         try {
             prepare = connect.prepareStatement(myadmin);
             resultSet = prepare.executeQuery();
-            CustomerDeta CD;
+            SalesDeta CD;
             while (resultSet.next()) {
-                CD = new CustomerDeta(resultSet.getInt("id"),
-                        resultSet.getString("bookid"),
-                        resultSet.getString("bookname"),
-                        resultSet.getString("type"),
-                        resultSet.getDouble("price"),
-                        resultSet.getInt("Quantity"),
-                        resultSet.getDate("date"));
+                CD = new SalesDeta();
+                CD.setId(resultSet.getInt("id"));
+                CD.setID(resultSet.getString("bookid"));
+                CD.setName(resultSet.getString("bookname"));
+                CD.setType(resultSet.getString("type"));
+                CD.setPrice(resultSet.getDouble("price"));
+                CD.setQuantity(resultSet.getInt("Quantity"));
+                CD.setDate(resultSet.getDate("date"));
                 listdeta.add(CD);
             }
         } catch (Exception e) {
@@ -99,22 +100,22 @@ public class CheckpageController implements Initializable {
         return listdeta;
     }
 
-    private ObservableList<CustomerDeta> List;
+    private ObservableList<SalesDeta> List;
 
     public void showDetalist() throws SQLException {
         List = detaList();
-        checkID.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("ID"));
-        checkName.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("Name"));
-        checkType.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("Type"));
-        checkPrice.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("Price"));
-        checkQuantity.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("Quantity"));
-        checkDate.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("Date"));
+        checkID.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("ID"));
+        checkName.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Name"));
+        checkType.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Type"));
+        checkPrice.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Price"));
+        checkQuantity.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Quantity"));
+        checkDate.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Date"));
 
         checktable.setItems(List);
     }
 
     public void select() {
-        CustomerDeta customerDeta = checktable.getSelectionModel().getSelectedItem();
+        SalesDeta customerDeta = checktable.getSelectionModel().getSelectedItem();
 
         textQu.setText(String.valueOf(customerDeta.getQuantity()));
         textcheckID.setText(customerDeta.getID());

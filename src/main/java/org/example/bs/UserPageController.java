@@ -14,7 +14,7 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 
-public class UserPageController implements Initializable {
+public class UserPageController extends HelloController implements Initializable {
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet resultSet;
@@ -152,10 +152,10 @@ public class UserPageController implements Initializable {
         }
     }
 
-    public void Signout(ActionEvent event) throws IOException {
-        Switch s1 = new Switch();
-        s1.switchto(event, "hello-view.fxml");
-    }
+//    public void Signout(ActionEvent event) throws IOException {
+//        Switch s1 = new Switch();
+//        s1.switchto(event, "hello-view.fxml");
+//    }
 
     public void next(ActionEvent event) throws IOException {
         Switch s1 = new Switch();

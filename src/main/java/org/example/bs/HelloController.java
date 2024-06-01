@@ -40,12 +40,6 @@ public class HelloController implements Initializable {
     private Button createbtnlog;
 
     @FXML
-    private Hyperlink forgetpass;
-
-    @FXML
-    private Button loginbtnlog;
-
-    @FXML
     private TextField roleCR;
 
     @FXML
@@ -58,10 +52,6 @@ public class HelloController implements Initializable {
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet resultSet;
-    private Stage stage;
-    private Scene scene;
-    private Parent parent;
-    private ActionEvent event;
     private Error error;
 
     public void switchtoCreateAcc(ActionEvent event) throws IOException {
@@ -119,36 +109,6 @@ public class HelloController implements Initializable {
             }
         }
     }
-
-//    public void loginbtn(ActionEvent event) throws IOException {
-//        if (usernamelog.getText().isEmpty() || passwordlog.getText().isEmpty()) {
-//            error = new Error();
-//            error.setfield("Invalid information.");
-//        } else {
-//            String logindeta = "SELECT name, password FROM information WHERE name = ? and password = ? " +
-//                    "and role = 'admin'";
-//            try {
-//                connect = Detabase.CODB();
-//            } catch (SQLException e) {
-//                throw new RuntimeException(e);
-//            }
-//            try {
-//                prepare = connect.prepareStatement(logindeta);
-//                prepare.setString(1, usernamelog.getText());
-//                prepare.setString(2, passwordlog.getText());
-//                resultSet = prepare.executeQuery();
-//                if (resultSet.next()) {
-//                    Switch s1 = new Switch();
-//                    s1.switchto(event, "Adminpage.fxml");
-//                } else {
-//                    error = new Error();
-//                    error.setfield("Invalid information.");
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
 
     public void createACbtn() throws SQLException {
         if (usernameCR.getText().isEmpty() || passwordCR.getText().isEmpty() ||

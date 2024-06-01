@@ -91,8 +91,6 @@ public class AdminController extends HelloController implements Initializable {
     @FXML
     private TextField textproductID;
 
-    private Stage stage;
-    private Scene scene;
     private Connection connect;
     private PreparedStatement prepare;
     private Statement statement;
@@ -229,11 +227,8 @@ public class AdminController extends HelloController implements Initializable {
         }
     }
     public void customerbtn(ActionEvent event) throws IOException {
-        Parent root = load(getClass().getResource("Customers.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        Switch s = new Switch();
+        s.switchto(event,"Saleslist.fxml");
     }
     public void Deletebtn() throws SQLException {
         if(Static.id == 0){

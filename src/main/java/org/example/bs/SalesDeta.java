@@ -2,7 +2,7 @@ package org.example.bs;
 
 import java.util.Date;
 
-public class CustomerDeta  {
+public class SalesDeta {
     private int id;
     private String ID;
     private String Name;
@@ -11,18 +11,32 @@ public class CustomerDeta  {
     private Integer Quantity;
     private Date date;
 
-    public CustomerDeta(int id, String ID,
-                        String Name,String Type,
-                        Double price, Integer Quantity,Date date)
-    {
+    public void setId(int id) {
         this.id = id;
-        this.ID = ID;
-        this.Name = Name;
-        this.Type = Type;
-        this.price = price;
-        this.Quantity = Quantity;
-        this.date = date;
+    }
 
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public void setType(String type) {
+        Type = type;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setQuantity(Integer quantity) {
+        Quantity = quantity;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public int getid() {
@@ -52,6 +66,4 @@ public class CustomerDeta  {
     public Date getDate() {
         return date;
     }
-
-
 }

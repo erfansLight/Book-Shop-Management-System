@@ -18,7 +18,6 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
-import static javafx.fxml.FXMLLoader.load;
 
 
 public class Saleslist extends HelloController implements Initializable {
@@ -30,52 +29,48 @@ public class Saleslist extends HelloController implements Initializable {
 
 
     @FXML
-    private TableView<CustomerDeta> buytableview;
+    private TableView<SalesDeta> buytableview;
 
     @FXML
-    private TableColumn<CustomerDeta, String> buyDate;
+    private TableColumn<SalesDeta, String> buyDate;
 
     @FXML
-    private TableColumn<CustomerDeta, String> buyID;
+    private TableColumn<SalesDeta, String> buyID;
 
     @FXML
-    private TableColumn<CustomerDeta, String> buyName;
+    private TableColumn<SalesDeta, String> buyName;
 
     @FXML
-    private TableColumn<CustomerDeta, String> buyPrice;
+    private TableColumn<SalesDeta, String> buyPrice;
 
     @FXML
-    private TableColumn<CustomerDeta, String> buyQuantity;
+    private TableColumn<SalesDeta, String> buyQuantity;
 
     @FXML
-    private TableColumn<CustomerDeta, String> buyType;
+    private TableColumn<SalesDeta, String> buyType;
 
-    @FXML
-    private TableColumn<CustomerDeta, String> buycustomName;
-
-    @FXML
-    private TextField buytotalincome;
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet resultSet;
 
-    public ObservableList<CustomerDeta> detaList() throws SQLException {
-        ObservableList<CustomerDeta> listdeta = FXCollections.observableArrayList();
+    public ObservableList<SalesDeta> detaList() throws SQLException {
+        ObservableList<SalesDeta> listdeta = FXCollections.observableArrayList();
         String myadmin = "SELECT * FROM customer";
         connect = Detabase.CODB();
 
         try {
             prepare = connect.prepareStatement(myadmin);
             resultSet = prepare.executeQuery();
-            CustomerDeta CD;
+            SalesDeta CD;
             while (resultSet.next()) {
-                CD = new CustomerDeta(resultSet.getInt("id"),
-                        resultSet.getString("bookid"),
-                        resultSet.getString("bookname"),
-                        resultSet.getString("type"),
-                        resultSet.getDouble("price"),
-                        resultSet.getInt("Quantity"),
-                        resultSet.getDate("date"));
+                CD = new SalesDeta();
+                CD.setId(resultSet.getInt("id"));
+                CD.setID(resultSet.getString("bookid"));
+                CD.setName(resultSet.getString("bookname"));
+                CD.setType(resultSet.getString("type"));
+                CD.setPrice(resultSet.getDouble("price"));
+                CD.setQuantity(resultSet.getInt("Quantity"));
+                CD.setDate(resultSet.getDate("date"));
                 listdeta.add(CD);
             }
         } catch (Exception e) {
@@ -90,16 +85,16 @@ public class Saleslist extends HelloController implements Initializable {
         s1.switchto(event, "Adminpage.fxml");
     }
 
-    private ObservableList<CustomerDeta> List;
+    private ObservableList<SalesDeta> List;
 
     public void showDetalist() throws SQLException {
         List = detaList();
-        buyID.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("ID"));
-        buyName.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("Name"));
-        buyType.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("Type"));
-        buyPrice.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("Price"));
-        buyQuantity.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("Quantity"));
-        buyDate.setCellValueFactory(new PropertyValueFactory<CustomerDeta, String>("Date"));
+        buyID.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("ID"));
+        buyName.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Name"));
+        buyType.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Type"));
+        buyPrice.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Price"));
+        buyQuantity.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Quantity"));
+        buyDate.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Date"));
 
         buytableview.setItems(List);
     }
