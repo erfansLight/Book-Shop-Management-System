@@ -41,14 +41,7 @@ public class ChangePass extends HelloController{
     private String rename;
 
 
-    public void switchForgetPass(ActionEvent event) throws IOException {
-        Parent root = load(getClass().getResource("ForgetPass.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-    public void resetbtn(ActionEvent event1)  {
+    public void resetbtn(ActionEvent event)  {
         if(fpusername.getText().isEmpty() || fpfavoritecity.getText().isEmpty()
                 || fpbirthday.getValue() == null){
             error = new Error();
@@ -68,13 +61,9 @@ public class ChangePass extends HelloController{
                 prepare.setString(3, String.valueOf(fpbirthday.getValue()));
                 resultSet = prepare.executeQuery();
                 if(resultSet.next()){
-                    // System.out.println(fpusername.getText());
                     rename = fpusername.getText();
-                    Parent root = load(getClass().getResource("ChangePass.fxml"));
-                    stage = (Stage) ((Node) event1.getSource()).getScene().getWindow();
-                    scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
+                    Switch s = new Switch();
+                    s.switchto(event,"ChangePass.fxml");
                 }else{
                     error = new Error();
                     error.setfield("Invalid information.");
@@ -95,7 +84,6 @@ public class ChangePass extends HelloController{
                 throw new RuntimeException(e);
             }
             try{
-                System.out.println(rename);
                 String updatep = "UPDATE information SET password = '" + nPass.getText()+"' WHERE name = '"
                         +Static.name+"'";
                 prepare = connect.prepareStatement(updatep);

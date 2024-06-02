@@ -28,7 +28,7 @@
                   <TextField fx:id="fpusername" layoutX="80.0" layoutY="238.0" prefHeight="30.0" prefWidth="240.0" promptText="Username" />
                   <TextField fx:id="fpfavoritecity" layoutX="80.0" layoutY="285.0" prefHeight="30.0" prefWidth="240.0" promptText="Favorite city" />
                   <DatePicker fx:id="fpbirthday" layoutX="80.0" layoutY="333.0" prefHeight="30.0" prefWidth="240.0" promptText="Your Birthday" />
-                  <Button fx:id="resetbtn" layoutX="80.0" layoutY="401.0" mnemonicParsing="false" onAction="#resetbtn" prefHeight="30.0" prefWidth="240.0" styleClass="btn" stylesheets="@style.css" text="Reset">
+                  <Button fx:id="resetbtn" layoutX="80.0" layoutY="401.0" mnemonicParsing="false" onAction="#resetbtn" prefHeight="30.0" prefWidth="240.0" styleClass="btn" stylesheets="@style.css" text="Change">
                      <font>
                         <Font size="35.0" />
                      </font>

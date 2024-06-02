@@ -65,6 +65,8 @@ public class HelloController implements Initializable {
     }
 
     public void switchForgetPass(ActionEvent event) throws IOException {
+//        mail il = new mail();
+//        il.email("sltanyh1384@gmail.com");
         Switch s1 = new Switch();
         s1.switchto(event, "ForgetPass.fxml");
     }

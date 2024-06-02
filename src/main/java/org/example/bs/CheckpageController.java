@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 
 import static javafx.fxml.FXMLLoader.load;
 
-public class CheckpageController implements Initializable {
+public class CheckpageController extends WishController implements Initializable {
     private Connection connect;
     private PreparedStatement prepare;
     private Error error;
@@ -74,7 +74,7 @@ public class CheckpageController implements Initializable {
     @FXML
     private TextField textQu;
 
-    public ObservableList<SalesDeta> detaList() throws SQLException {
+    public ObservableList<SalesDeta> detaList2() throws SQLException {
         ObservableList<SalesDeta> listdeta = FXCollections.observableArrayList();
         String myadmin = "SELECT * FROM checkpage";
         connect = Detabase.CODB();
@@ -102,8 +102,8 @@ public class CheckpageController implements Initializable {
 
     private ObservableList<SalesDeta> List;
 
-    public void showDetalist() throws SQLException {
-        List = detaList();
+    public void showDetalist2() throws SQLException {
+        List = detaList2();
         checkID.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("ID"));
         checkName.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Name"));
         checkType.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Type"));
@@ -177,7 +177,7 @@ public class CheckpageController implements Initializable {
                 error = new Error();
                 error.update("Successful");
 
-                showDetalist();
+                showDetalist2();
                 textQu.setText("");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -204,7 +204,7 @@ public class CheckpageController implements Initializable {
                 error = new Error();
                 error.update("Successfully updated.");
 
-                showDetalist();
+                showDetalist2();
                 textQu.setText("");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -215,7 +215,7 @@ public class CheckpageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            showDetalist();
+            showDetalist2();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
