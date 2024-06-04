@@ -2,6 +2,7 @@ module org.example.bs {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires java.mail;
     //requires java.mail;
 
 

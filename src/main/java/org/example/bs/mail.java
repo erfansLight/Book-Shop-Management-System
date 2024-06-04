@@ -1,44 +1,43 @@
-package org.example.bs;
-
-//import java.util.Properties;
+//package org.example.bs;
+//
 //import javax.mail.*;
 //import javax.mail.internet.InternetAddress;
 //import javax.mail.internet.MimeMessage;
-
-public class mail {
-    public void email(String s) {
-
-//        String from = "sltanyh468@gmail.com";
-//        //String host = "smtp.gmail.com";
-//        String pass = "sltanyh1384@gmail.com";
+//import java.net.PasswordAuthentication;
+//import java.util.Properties;
 //
-//        try {
-//            Properties pro = new Properties();
-//            pro.setProperty("mail.smtp.host","smtp.gmail.com");
-//            pro.setProperty("mail.smtp.port","576");
-//            pro.setProperty("mail.smtp.auth","true");
-//            pro.setProperty("mail.smtp.socketFactory.port", "576");
-//            pro.setProperty("mail.smtp.socketFactory.class", "javax.ssl.SSLSocketFactory");
+//public class mail {
+//    public void email() {
+//        String recipient = "recipient@gmail.com";
 //
-//            Session session = Session.getInstance(pro, new Authenticator() {
-//                @Override
-//                protected PasswordAuthentication getPasswordAuthentication() {
-//                    return new PasswordAuthentication(from,pass);
-//                }
-//            });
+//        String sender = "sltanyh468@gmail.com";
 //
-//            Message message = new MimeMessage(session);
-//            message.setFrom(new InternetAddress(from));
-//            message.setRecipient(Message.RecipientType.TO, new InternetAddress(s));
-//            message.setSubject("ll");
-//            message.setText(":::");
+//        String host = "192.168.11.30";
+//
+//        Properties properties = System.getProperties();
+//
+//        properties.setProperty("mail.smtp.host", host);
+//
+//        Session session = Session.getDefaultInstance(properties);
+//
+//        try
+//        {
+//            MimeMessage message = new MimeMessage(session);
+//
+//            message.setFrom(new InternetAddress(sender));
+//
+//            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+//
+//            message.setSubject("This is Subject");
+//
+//            message.setText("This is a test mail");
 //
 //            Transport.send(message);
-//            System.out.println("ok");
-//        } catch (Exception e ) {
-//            e.printStackTrace();
+//            System.out.println("Mail successfully sent");
 //        }
-
-
-    }
-}
+//        catch (MessagingException mex)
+//        {
+//            mex.printStackTrace();
+//        }
+//    }
+//}

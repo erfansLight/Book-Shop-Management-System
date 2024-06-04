@@ -62,18 +62,6 @@ public class AdminController extends HelloController implements Initializable {
     private TableColumn<BookDeta,String> dashcolType;
 
     @FXML
-    private Button dashdeletbtn;
-
-    @FXML
-    private Button dashupdatebtn;
-
-    @FXML
-    private AnchorPane mainform;
-
-    @FXML
-    private Button signoutbtn;
-
-    @FXML
     private TextField textAuthor;
 
     @FXML
