@@ -19,30 +19,6 @@ import static javafx.fxml.FXMLLoader.load;
 
 public class HelloController implements Initializable {
     @FXML
-    private TextField QuestionCR;
-
-    @FXML
-    private Button createbtnCR;
-
-    @FXML
-    private DatePicker dateCR;
-
-    @FXML
-    private Button loginbtnCR;
-
-    @FXML
-    private PasswordField passwordCR;
-
-    @FXML
-    private TextField usernameCR;
-
-    @FXML
-    private Button createbtnlog;
-
-    @FXML
-    private TextField roleCR;
-
-    @FXML
     private PasswordField passwordlog;
 
     @FXML
@@ -65,8 +41,6 @@ public class HelloController implements Initializable {
     }
 
     public void switchForgetPass(ActionEvent event) throws IOException {
-//        mail il = new mail();
-//        il.email();
         Switch s1 = new Switch();
         s1.switchto(event, "ForgetPass.fxml");
     }
@@ -111,52 +85,6 @@ public class HelloController implements Initializable {
             }
         }
     }
-
-    public void createACbtn() throws SQLException {
-        if (usernameCR.getText().isEmpty() || passwordCR.getText().isEmpty() ||
-                QuestionCR.getText().isEmpty() || dateCR.getValue() == null ||
-            roleCR.getText().isEmpty()) {
-            error = new Error();
-            error.setfield("Please fill out all field");
-        } else if (passwordCR.getText().length() < 5) {
-            error = new Error();
-            error.setfield("Your password should have at least 5 characters.");
-        } else {
-            String signdeta = "INSERT INTO information (name , password, city,Date, role)" +
-                    "VALUES(?,?,?,?,?)";
-            connect = Detabase.CODB();
-            try {
-                String checkname = "SELECT name FROM information WHERE name = '" +
-                        usernameCR.getText() + "'";
-                prepare = connect.prepareStatement(checkname);
-                resultSet = prepare.executeQuery();
-                if (resultSet.next()) {
-                    error = new Error();
-                    error.setfield("This username has already been taken.");
-                } else {
-                    prepare = connect.prepareStatement(signdeta);
-                    prepare.setString(1, usernameCR.getText());
-                    prepare.setString(2, passwordCR.getText());
-                    prepare.setString(3, QuestionCR.getText());
-                    prepare.setString(4, String.valueOf(dateCR.getValue()));//*******
-                    prepare.setString(5,roleCR.getText());
-                    prepare.executeUpdate();
-
-                    error = new Error();
-                    error.update("Successfully registered Account.");
-
-                    usernameCR.setText("");
-                    passwordCR.setText("");
-                    QuestionCR.setText("");
-                    roleCR.setText("");
-                    dateCR.setValue(LocalDate.parse("2020-05-01"));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
