@@ -36,8 +36,6 @@ public class ChangePass extends HelloController{
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet resultSet;
-    private Stage stage;
-    private Scene scene;
     private String rename;
 
 

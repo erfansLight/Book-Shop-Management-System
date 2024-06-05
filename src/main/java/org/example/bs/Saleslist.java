@@ -21,12 +21,9 @@ import java.util.ResourceBundle;
 
 
 public class Saleslist extends HelloController implements Initializable {
-    @FXML
-    private Button buyBack;
 
     @FXML
     private TextField TI;
-
 
     @FXML
     private TableView<SalesDeta> buytableview;

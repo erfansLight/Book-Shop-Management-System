@@ -17,16 +17,10 @@ public class CreateAccount extends HelloController{
     private TextField QuestionCR;
 
     @FXML
-    private Button createbtnCR;
-
-    @FXML
     private DatePicker dateCR;
 
     @FXML
     private TextField email;
-
-    @FXML
-    private Button loginbtnCR;
 
     @FXML
     private PasswordField passwordCR;

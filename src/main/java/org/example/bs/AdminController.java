@@ -25,20 +25,9 @@ import java.util.Date;
 import static javafx.fxml.FXMLLoader.load;
 
 public class AdminController extends HelloController implements Initializable {
-    @FXML
-    private Button customersbtn;
-
-    @FXML
-    private Button dashaddbtn;
-
-    @FXML
-    private Button dashbordbtn;
 
     @FXML
     private TableView<BookDeta> dashbordtableview;
-
-    @FXML
-    private Button dashclearbtn;
 
     @FXML
     private TableColumn<BookDeta,String> dashcolAuthor;
