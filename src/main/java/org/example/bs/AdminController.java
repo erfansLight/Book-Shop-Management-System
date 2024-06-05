@@ -5,16 +5,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,28 +21,28 @@ import static javafx.fxml.FXMLLoader.load;
 public class AdminController extends HelloController implements Initializable {
 
     @FXML
-    private TableView<BookDeta> dashbordtableview;
+    private TableView<BookData> dashbordtableview;
 
     @FXML
-    private TableColumn<BookDeta,String> dashcolAuthor;
+    private TableColumn<BookData,String> dashcolAuthor;
 
     @FXML
-    private TableColumn<BookDeta,String> dashcolDate;
+    private TableColumn<BookData,String> dashcolDate;
 
     @FXML
-    private TableColumn<BookDeta,String> dashcolDescription;
+    private TableColumn<BookData,String> dashcolDescription;
 
     @FXML
-    private TableColumn<BookDeta,String> dashcolIDProduct;
+    private TableColumn<BookData,String> dashcolIDProduct;
 
     @FXML
-    private TableColumn<BookDeta,String> dashcolPrice;
+    private TableColumn<BookData,String> dashcolPrice;
 
     @FXML
-    private TableColumn<BookDeta,String> dashcolProductname;
+    private TableColumn<BookData,String> dashcolProductname;
 
     @FXML
-    private TableColumn<BookDeta,String> dashcolType;
+    private TableColumn<BookData,String> dashcolType;
 
     @FXML
     private TextField textAuthor;
@@ -73,17 +67,17 @@ public class AdminController extends HelloController implements Initializable {
     private Statement statement;
     private ResultSet resultSet;
     private Error error;
-    public ObservableList<BookDeta> detaList() throws SQLException {
-         ObservableList<BookDeta> listdeta = FXCollections.observableArrayList();
+    public ObservableList<BookData> detaList() throws SQLException {
+         ObservableList<BookData> listdeta = FXCollections.observableArrayList();
          String myadmin = "SELECT * FROM bookdeta";
-         connect = Detabase.CODB();
+         connect = Database.CODB();
 
          try{
              prepare = connect.prepareStatement(myadmin);
              resultSet = prepare.executeQuery();
-             BookDeta bookDeta;
+             BookData bookDeta;
              while(resultSet.next()){
-                 bookDeta = new BookDeta(resultSet.getInt("id"),
+                 bookDeta = new BookData(resultSet.getInt("id"),
                          resultSet.getString("bookid"),
                          resultSet.getString("bookname"),
                          resultSet.getString("type"),
@@ -98,16 +92,16 @@ public class AdminController extends HelloController implements Initializable {
          }
          return listdeta;
     }
-    private ObservableList<BookDeta> List;
+    private ObservableList<BookData> List;
     public void showDetalist() throws SQLException {
         List = detaList();
-        dashcolIDProduct.setCellValueFactory(new PropertyValueFactory<BookDeta,String>("ID"));
-        dashcolProductname.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Name"));
-        dashcolType.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Type"));
-        dashcolDescription.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Description"));
-        dashcolPrice.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Price"));
-        dashcolAuthor.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Author"));
-        dashcolDate.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Date"));
+        dashcolIDProduct.setCellValueFactory(new PropertyValueFactory<BookData,String>("ID"));
+        dashcolProductname.setCellValueFactory(new PropertyValueFactory<BookData, String>("Name"));
+        dashcolType.setCellValueFactory(new PropertyValueFactory<BookData, String>("Type"));
+        dashcolDescription.setCellValueFactory(new PropertyValueFactory<BookData, String>("Description"));
+        dashcolPrice.setCellValueFactory(new PropertyValueFactory<BookData, String>("Price"));
+        dashcolAuthor.setCellValueFactory(new PropertyValueFactory<BookData, String>("Author"));
+        dashcolDate.setCellValueFactory(new PropertyValueFactory<BookData, String>("Date"));
 
         dashbordtableview.setItems(List);
     }
@@ -121,7 +115,7 @@ public class AdminController extends HelloController implements Initializable {
         }else{
             String checkbookid = "SELECT bookid FROM bookdeta WHERE bookid = '" +
                     textproductID.getText()+"'";
-            connect = Detabase.CODB();
+            connect = Database.CODB();
             try{
 
                 statement = connect.createStatement();
@@ -165,7 +159,7 @@ public class AdminController extends HelloController implements Initializable {
         Static.id=0;
     }
     public void Select(){
-        BookDeta bt = dashbordtableview.getSelectionModel().getSelectedItem();
+        BookData bt = dashbordtableview.getSelectionModel().getSelectedItem();
 
         textproductID.setText(bt.getID());
         textProductname.setText(bt.getName());
@@ -189,7 +183,7 @@ public class AdminController extends HelloController implements Initializable {
                     textDescription.getText()+"', price = '"+textPrice.getText()+"',Author = '"+
                     textAuthor.getText()+"', date = '"+ Static.date+"' WHERE id = "+Static.id;
 
-            connect = Detabase.CODB();
+            connect = Database.CODB();
             try{
 
                 prepare = connect.prepareStatement(Update);

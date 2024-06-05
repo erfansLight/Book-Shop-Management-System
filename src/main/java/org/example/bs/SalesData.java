@@ -2,7 +2,7 @@ package org.example.bs;
 
 import java.util.Date;
 
-public class SalesDeta {
+public class SalesData {
     private int id;
     private String ID;
     private String Name;

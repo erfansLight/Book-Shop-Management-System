@@ -2,7 +2,7 @@ package org.example.bs;
 
 import java.util.Date;
 
-public class BookDeta {
+public class BookData {
     private int id;
     private String ID;
     private String Name;
@@ -12,8 +12,8 @@ public class BookDeta {
     private String Author;
     private Date date;
 
-    public BookDeta(int id, String ID,
-                    String Name,String type,
+    public BookData(int id, String ID,
+                    String Name, String type,
                     String Description, Double price,
                     String Author, Date date)
     {

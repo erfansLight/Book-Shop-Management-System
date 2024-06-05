@@ -21,28 +21,28 @@ public class UserPageController extends HelloController implements Initializable
     private Error error;
 
     @FXML
-    private TableView<BookDeta> Usertableview;
+    private TableView<BookData> Usertableview;
 
     @FXML
-    private TableColumn<BookDeta, String> customName;
+    private TableColumn<BookData, String> customName;
 
     @FXML
-    private TableColumn<BookDeta, String> customAuthor;
+    private TableColumn<BookData, String> customAuthor;
 
     @FXML
-    private TableColumn<BookDeta, String> customDate;
+    private TableColumn<BookData, String> customDate;
 
     @FXML
-    private TableColumn<BookDeta, String> customDescription;
+    private TableColumn<BookData, String> customDescription;
 
     @FXML
-    private TableColumn<BookDeta, String> customID;
+    private TableColumn<BookData, String> customID;
 
     @FXML
-    private TableColumn<BookDeta, String> customPrice;
+    private TableColumn<BookData, String> customPrice;
 
     @FXML
-    private TableColumn<BookDeta, String> customType;
+    private TableColumn<BookData, String> customType;
 
     @FXML
     private TextField textAuthor;
@@ -66,17 +66,17 @@ public class UserPageController extends HelloController implements Initializable
     private TextField textproductID;
 
 
-    public ObservableList<BookDeta> detaList() throws SQLException {
-        ObservableList<BookDeta> listdeta = FXCollections.observableArrayList();
+    public ObservableList<BookData> detaList() throws SQLException {
+        ObservableList<BookData> listdeta = FXCollections.observableArrayList();
         String myadmin = "SELECT * FROM bookdeta";
-        connect = Detabase.CODB();
+        connect = Database.CODB();
 
         try {
             prepare = connect.prepareStatement(myadmin);
             resultSet = prepare.executeQuery();
-            BookDeta bookDeta;
+            BookData bookDeta;
             while (resultSet.next()) {
-                bookDeta = new BookDeta(resultSet.getInt("id"),
+                bookDeta = new BookData(resultSet.getInt("id"),
                         resultSet.getString("bookid"),
                         resultSet.getString("bookname"),
                         resultSet.getString("type"),
@@ -92,23 +92,23 @@ public class UserPageController extends HelloController implements Initializable
         return listdeta;
     }
 
-    private ObservableList<BookDeta> List;
+    private ObservableList<BookData> List;
 
     public void showDetalist() throws SQLException {
         List = detaList();
-        customID.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("ID"));
-        customName.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Name"));
-        customType.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Type"));
-        customDescription.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Description"));
-        customPrice.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Price"));
-        customAuthor.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Author"));
-        customDate.setCellValueFactory(new PropertyValueFactory<BookDeta, String>("Date"));
+        customID.setCellValueFactory(new PropertyValueFactory<BookData, String>("ID"));
+        customName.setCellValueFactory(new PropertyValueFactory<BookData, String>("Name"));
+        customType.setCellValueFactory(new PropertyValueFactory<BookData, String>("Type"));
+        customDescription.setCellValueFactory(new PropertyValueFactory<BookData, String>("Description"));
+        customPrice.setCellValueFactory(new PropertyValueFactory<BookData, String>("Price"));
+        customAuthor.setCellValueFactory(new PropertyValueFactory<BookData, String>("Author"));
+        customDate.setCellValueFactory(new PropertyValueFactory<BookData, String>("Date"));
 
         Usertableview.setItems(List);
     }
 
     public void Select() {
-        BookDeta bt = Usertableview.getSelectionModel().getSelectedItem();
+        BookData bt = Usertableview.getSelectionModel().getSelectedItem();
 
         textproductID.setText(bt.getID());
         textProductname.setText(bt.getName());
@@ -174,7 +174,7 @@ public class UserPageController extends HelloController implements Initializable
             error = new Error();
             error.setfield("Please fill out all field");
         } else {
-            connect = Detabase.CODB();
+            connect = Database.CODB();
             try {
                 String checkname = "SELECT bookname FROM wishlist WHERE bookname = '" +
                         textProductname.getText() + "'";

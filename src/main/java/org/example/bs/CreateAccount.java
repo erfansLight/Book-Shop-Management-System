@@ -2,7 +2,6 @@ package org.example.bs;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -44,7 +43,7 @@ public class CreateAccount extends HelloController{
         } else {
             String signdeta = "INSERT INTO information (name , password, city,Date)" +
                     "VALUES(?,?,?,?)";
-            connect = Detabase.CODB();
+            connect = Database.CODB();
             try {
                 String checkname = "SELECT name FROM information WHERE name = '" +
                         usernameCR.getText() + "'";

@@ -5,16 +5,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
-import javax.xml.transform.Result;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -30,44 +25,44 @@ public class WishController implements Initializable {
     private TextField delete;
 
     @FXML
-    private TableColumn<wishDeta, String> wishAuthor;
+    private TableColumn<wishData, String> wishAuthor;
 
     @FXML
-    private TableColumn<wishDeta, String> wishDate;
+    private TableColumn<wishData, String> wishDate;
 
     @FXML
-    private TableColumn<wishDeta, String> wishDescription;
+    private TableColumn<wishData, String> wishDescription;
 
     @FXML
-    private TableColumn<wishDeta, String> wishID;
+    private TableColumn<wishData, String> wishID;
 
     @FXML
-    private TableColumn<wishDeta, String> wishPrice;
+    private TableColumn<wishData, String> wishPrice;
 
     @FXML
-    private TableColumn<wishDeta, String> wishname;
+    private TableColumn<wishData, String> wishname;
 
     @FXML
-    private TableView<wishDeta> wishtable;
+    private TableView<wishData> wishtable;
 
     @FXML
-    private TableColumn<wishDeta, String> wishtype;
+    private TableColumn<wishData, String> wishtype;
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet resultSet;
     private Error error;
 
-    public ObservableList<wishDeta> detaList() throws SQLException {
-        ObservableList<wishDeta> listdeta = FXCollections.observableArrayList();
+    public ObservableList<wishData> detaList() throws SQLException {
+        ObservableList<wishData> listdeta = FXCollections.observableArrayList();
         String myadmin = "SELECT * FROM wishlist WHERE customername = '" + Static.name + "'";
-        connect = Detabase.CODB();
+        connect = Database.CODB();
 
         try {
             prepare = connect.prepareStatement(myadmin);
             resultSet = prepare.executeQuery();
-            wishDeta wd;
+            wishData wd;
             while (resultSet.next()) {
-                wd = new wishDeta(resultSet.getInt("id"),
+                wd = new wishData(resultSet.getInt("id"),
                         resultSet.getString("bookid"),
                         resultSet.getString("bookname"),
                         resultSet.getString("type"),
@@ -83,17 +78,17 @@ public class WishController implements Initializable {
         return listdeta;
     }
 
-    private ObservableList<wishDeta> List;
+    private ObservableList<wishData> List;
 
     public void showDetalist() throws SQLException {
         List = detaList();
-        wishID.setCellValueFactory(new PropertyValueFactory<wishDeta, String>("ID"));
-        wishname.setCellValueFactory(new PropertyValueFactory<wishDeta, String>("Name"));
-        wishtype.setCellValueFactory(new PropertyValueFactory<wishDeta, String>("Type"));
-        wishDescription.setCellValueFactory(new PropertyValueFactory<wishDeta, String>("Description"));
-        wishPrice.setCellValueFactory(new PropertyValueFactory<wishDeta, String>("Price"));
-        wishAuthor.setCellValueFactory(new PropertyValueFactory<wishDeta, String>("Author"));
-        wishDate.setCellValueFactory(new PropertyValueFactory<wishDeta, String>("Date"));
+        wishID.setCellValueFactory(new PropertyValueFactory<wishData, String>("ID"));
+        wishname.setCellValueFactory(new PropertyValueFactory<wishData, String>("Name"));
+        wishtype.setCellValueFactory(new PropertyValueFactory<wishData, String>("Type"));
+        wishDescription.setCellValueFactory(new PropertyValueFactory<wishData, String>("Description"));
+        wishPrice.setCellValueFactory(new PropertyValueFactory<wishData, String>("Price"));
+        wishAuthor.setCellValueFactory(new PropertyValueFactory<wishData, String>("Author"));
+        wishDate.setCellValueFactory(new PropertyValueFactory<wishData, String>("Date"));
 
         wishtable.setItems(List);
     }
@@ -104,7 +99,7 @@ public class WishController implements Initializable {
     }
 
     public void Select() {
-        wishDeta w1 = wishtable.getSelectionModel().getSelectedItem();
+        wishData w1 = wishtable.getSelectionModel().getSelectedItem();
         delete.setText(w1.getAuthor());
         Static.bookname = w1.getName();
     }

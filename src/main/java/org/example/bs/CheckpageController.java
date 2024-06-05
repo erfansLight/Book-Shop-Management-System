@@ -51,40 +51,40 @@ public class CheckpageController extends WishController implements Initializable
     private TextField textchecktype;
 
     @FXML
-    private TableColumn<SalesDeta, String> checkDate;
+    private TableColumn<SalesData, String> checkDate;
 
     @FXML
-    private TableColumn<SalesDeta, String> checkID;
+    private TableColumn<SalesData, String> checkID;
 
     @FXML
-    private TableColumn<SalesDeta, String> checkName;
+    private TableColumn<SalesData, String> checkName;
 
     @FXML
-    private TableColumn<SalesDeta, String> checkPrice;
+    private TableColumn<SalesData, String> checkPrice;
 
     @FXML
-    private TableColumn<SalesDeta, String> checkQuantity;
+    private TableColumn<SalesData, String> checkQuantity;
 
     @FXML
-    private TableColumn<SalesDeta, String> checkType;
+    private TableColumn<SalesData, String> checkType;
 
     @FXML
-    private TableView<SalesDeta> checktable;
+    private TableView<SalesData> checktable;
 
     @FXML
     private TextField textQu;
 
-    public ObservableList<SalesDeta> detaList2() throws SQLException {
-        ObservableList<SalesDeta> listdeta = FXCollections.observableArrayList();
+    public ObservableList<SalesData> detaList2() throws SQLException {
+        ObservableList<SalesData> listdeta = FXCollections.observableArrayList();
         String myadmin = "SELECT * FROM checkpage";
-        connect = Detabase.CODB();
+        connect = Database.CODB();
 
         try {
             prepare = connect.prepareStatement(myadmin);
             resultSet = prepare.executeQuery();
-            SalesDeta CD;
+            SalesData CD;
             while (resultSet.next()) {
-                CD = new SalesDeta();
+                CD = new SalesData();
                 CD.setId(resultSet.getInt("id"));
                 CD.setID(resultSet.getString("bookid"));
                 CD.setName(resultSet.getString("bookname"));
@@ -100,22 +100,22 @@ public class CheckpageController extends WishController implements Initializable
         return listdeta;
     }
 
-    private ObservableList<SalesDeta> List;
+    private ObservableList<SalesData> List;
 
     public void showDetalist2() throws SQLException {
         List = detaList2();
-        checkID.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("ID"));
-        checkName.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Name"));
-        checkType.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Type"));
-        checkPrice.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Price"));
-        checkQuantity.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Quantity"));
-        checkDate.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Date"));
+        checkID.setCellValueFactory(new PropertyValueFactory<SalesData, String>("ID"));
+        checkName.setCellValueFactory(new PropertyValueFactory<SalesData, String>("Name"));
+        checkType.setCellValueFactory(new PropertyValueFactory<SalesData, String>("Type"));
+        checkPrice.setCellValueFactory(new PropertyValueFactory<SalesData, String>("Price"));
+        checkQuantity.setCellValueFactory(new PropertyValueFactory<SalesData, String>("Quantity"));
+        checkDate.setCellValueFactory(new PropertyValueFactory<SalesData, String>("Date"));
 
         checktable.setItems(List);
     }
 
     public void select() {
-        SalesDeta customerDeta = checktable.getSelectionModel().getSelectedItem();
+        SalesData customerDeta = checktable.getSelectionModel().getSelectedItem();
 
         textQu.setText(String.valueOf(customerDeta.getQuantity()));
         textcheckID.setText(customerDeta.getID());
@@ -131,7 +131,7 @@ public class CheckpageController extends WishController implements Initializable
             error = new Error();
             error.setfield("Please fill out all field");
         }else {
-            connect = Detabase.CODB();
+            connect = Database.CODB();
             try {
                 String insertdeta = "INSERT INTO customer" +
                         " (bookid, bookname, type, price, Quantity,customername, Total, date)" + "VALUES(?,?,?,?,?,?,?,?)";
@@ -195,7 +195,7 @@ public class CheckpageController extends WishController implements Initializable
                     textcheckprice.getText() + "', Quantity = '" + textQu.getText() +
                     "', Date = '" + Static.cdate + "' WHERE id = " + Static.cid;
 
-            connect = Detabase.CODB();
+            connect = Database.CODB();
             try {
 
                 prepare = connect.prepareStatement(Update);

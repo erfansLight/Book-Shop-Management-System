@@ -2,7 +2,7 @@ package org.example.bs;
 
 import java.util.Date;
 
-public class wishDeta {
+public class wishData {
     private int id;
     private String ID;
     private String Name;
@@ -12,7 +12,7 @@ public class wishDeta {
     private String Author;
     private Date date;
 
-    public wishDeta(int id, String ID,
+    public wishData(int id, String ID,
                     String Name, String type,
                     String Description, Double price,
                     String Author, Date date)

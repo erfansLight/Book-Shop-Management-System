@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -26,41 +25,41 @@ public class Saleslist extends HelloController implements Initializable {
     private TextField TI;
 
     @FXML
-    private TableView<SalesDeta> buytableview;
+    private TableView<SalesData> buytableview;
 
     @FXML
-    private TableColumn<SalesDeta, String> buyDate;
+    private TableColumn<SalesData, String> buyDate;
 
     @FXML
-    private TableColumn<SalesDeta, String> buyID;
+    private TableColumn<SalesData, String> buyID;
 
     @FXML
-    private TableColumn<SalesDeta, String> buyName;
+    private TableColumn<SalesData, String> buyName;
 
     @FXML
-    private TableColumn<SalesDeta, String> buyPrice;
+    private TableColumn<SalesData, String> buyPrice;
 
     @FXML
-    private TableColumn<SalesDeta, String> buyQuantity;
+    private TableColumn<SalesData, String> buyQuantity;
 
     @FXML
-    private TableColumn<SalesDeta, String> buyType;
+    private TableColumn<SalesData, String> buyType;
 
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet resultSet;
 
-    public ObservableList<SalesDeta> detaList() throws SQLException {
-        ObservableList<SalesDeta> listdeta = FXCollections.observableArrayList();
+    public ObservableList<SalesData> detaList() throws SQLException {
+        ObservableList<SalesData> listdeta = FXCollections.observableArrayList();
         String myadmin = "SELECT * FROM customer";
-        connect = Detabase.CODB();
+        connect = Database.CODB();
 
         try {
             prepare = connect.prepareStatement(myadmin);
             resultSet = prepare.executeQuery();
-            SalesDeta CD;
+            SalesData CD;
             while (resultSet.next()) {
-                CD = new SalesDeta();
+                CD = new SalesData();
                 CD.setId(resultSet.getInt("id"));
                 CD.setID(resultSet.getString("bookid"));
                 CD.setName(resultSet.getString("bookname"));
@@ -82,23 +81,23 @@ public class Saleslist extends HelloController implements Initializable {
         s1.switchto(event, "Adminpage.fxml");
     }
 
-    private ObservableList<SalesDeta> List;
+    private ObservableList<SalesData> List;
 
     public void showDetalist() throws SQLException {
         List = detaList();
-        buyID.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("ID"));
-        buyName.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Name"));
-        buyType.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Type"));
-        buyPrice.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Price"));
-        buyQuantity.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Quantity"));
-        buyDate.setCellValueFactory(new PropertyValueFactory<SalesDeta, String>("Date"));
+        buyID.setCellValueFactory(new PropertyValueFactory<SalesData, String>("ID"));
+        buyName.setCellValueFactory(new PropertyValueFactory<SalesData, String>("Name"));
+        buyType.setCellValueFactory(new PropertyValueFactory<SalesData, String>("Type"));
+        buyPrice.setCellValueFactory(new PropertyValueFactory<SalesData, String>("Price"));
+        buyQuantity.setCellValueFactory(new PropertyValueFactory<SalesData, String>("Quantity"));
+        buyDate.setCellValueFactory(new PropertyValueFactory<SalesData, String>("Date"));
 
         buytableview.setItems(List);
     }
     private Double totalincome;
     public void total() throws SQLException {
         String total = "SELECT SUM(Total) FROM customer";
-        connect = Detabase.CODB();
+        connect = Database.CODB();
         try{
             prepare = connect.prepareStatement(total);
             resultSet = prepare.executeQuery();
