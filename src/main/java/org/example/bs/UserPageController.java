@@ -152,12 +152,6 @@ public class UserPageController extends HelloController implements Initializable
             }
         }
     }
-
-//    public void Signout(ActionEvent event) throws IOException {
-//        Switch s1 = new Switch();
-//        s1.switchto(event, "hello-view.fxml");
-//    }
-
     public void next(ActionEvent event) throws IOException {
         Switch s1 = new Switch();
         s1.switchto(event, "checkpage.fxml");
@@ -178,7 +172,7 @@ public class UserPageController extends HelloController implements Initializable
             connect = Database.CODB();
             try {
                 String checkname = "SELECT bookname FROM wishlist WHERE bookname = '" +
-                        textProductname.getText() + "'";
+                        textProductname.getText() + "' AND customername = '"+Static.name+"'";
                 prepare = connect.prepareStatement(checkname);
                 resultSet = prepare.executeQuery();
                 if (resultSet.next()) {
