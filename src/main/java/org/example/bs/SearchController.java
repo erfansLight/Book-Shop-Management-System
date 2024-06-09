@@ -64,14 +64,15 @@ public class SearchController implements Initializable {
             resultSet = prepare.executeQuery();
             BookData BD;
             while (resultSet.next()) {
-                BD = new BookData(resultSet.getInt("id"),
-                        resultSet.getString("bookid"),
-                        resultSet.getString("bookname"),
-                        resultSet.getString("type"),
-                        resultSet.getString("Description"),
-                        resultSet.getDouble("price"),
-                        resultSet.getString("Author"),
-                        resultSet.getDate("date"));
+                BD = new BookData();
+                BD.setId(resultSet.getInt("id"));
+                BD.setID(resultSet.getString("bookid"));
+                BD.setName(resultSet.getString("bookname"));
+                BD.setType(resultSet.getString("type"));
+                BD.setDescription(resultSet.getString("Description"));
+                BD.setPrice(resultSet.getDouble("price"));
+                BD.setAuthor(resultSet.getString("Author"));
+                BD.setDate(resultSet.getDate("date"));
                 listdeta.add(BD);
             }
         } catch (Exception e) {

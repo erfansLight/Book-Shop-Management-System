@@ -12,22 +12,37 @@ public class BookData {
     private String Author;
     private Date date;
 
-    public BookData(int id, String ID,
-                    String Name, String type,
-                    String Description, Double price,
-                    String Author, Date date)
-    {
+    public void setId(int id) {
         this.id = id;
-        this.ID = ID;
-        this.Name = Name;
-        this.type = type;
-        this.Description = Description;
-        this.price = price;
-        this.Author = Author;
-        this.date = date;
-
     }
 
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public void setName(String name) {
+        this.Name = name;
+    }
+
+    public void setDescription(String description) {
+        this.Description = description;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setAuthor(String author) {
+        this.Author = author;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
     public int getId() {
         return id;
     }

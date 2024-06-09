@@ -77,14 +77,15 @@ public class AdminController extends HelloController implements Initializable {
              resultSet = prepare.executeQuery();
              BookData bookDeta;
              while(resultSet.next()){
-                 bookDeta = new BookData(resultSet.getInt("id"),
-                         resultSet.getString("bookid"),
-                         resultSet.getString("bookname"),
-                         resultSet.getString("type"),
-                         resultSet.getString("Description"),
-                         resultSet.getDouble("price"),
-                        resultSet.getString("Author"),
-                        resultSet.getDate("date"));
+                 bookDeta = new BookData();
+                 bookDeta.setId(resultSet.getInt("id"));
+                 bookDeta.setID(resultSet.getString("bookid"));
+                 bookDeta.setName(resultSet.getString("bookname"));
+                 bookDeta.setType(resultSet.getString("type"));
+                 bookDeta.setDescription(resultSet.getString("Description"));
+                 bookDeta.setPrice(resultSet.getDouble("price"));
+                 bookDeta.setAuthor(resultSet.getString("Author"));
+                 bookDeta.setDate(resultSet.getDate("date"));
                  listdeta.add(bookDeta);
              }
          }catch (Exception e){
