@@ -40,7 +40,7 @@
                         <Font size="67.0" />
                      </font>
                   </FontAwesomeIcon>
-                  <Label layoutX="138.0" layoutY="333.0" text="Book Store" textFill="#00ff22e0">
+                   <Label layoutX="138.0" layoutY="333.0" text="Book Store" textFill="#00ff22e0">
                      <font>
                         <Font size="25.0" />
                      </font>
