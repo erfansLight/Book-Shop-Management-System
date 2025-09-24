@@ -9,6 +9,7 @@ public class Static {
     public static String cdate;
     public static String search;
     public static String bookname;
+    public static String mailPass = "wzlastqkpmpmeqwi";
 
     final String subject = "Your account has been activated in our bookstore";
     final String text = "Hi "+createname+" Welcome to our store.\n" +

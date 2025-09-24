@@ -7,10 +7,12 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import static javafx.fxml.FXMLLoader.load;
 
@@ -34,61 +36,81 @@ public class ChangePass extends HelloController{
     private String rename;
 
 
-    public void resetbtn(ActionEvent event)  {
-        if(fpusername.getText().isEmpty() || fpfavoritecity.getText().isEmpty()
-                || fpbirthday.getValue() == null){
-            error = new Error();
-            error.setfield("Please fill out all field");
-        }else{
-            try {
-                connect = Database.CODB();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            String checkdeta = "SELECT name, city, Date FROM information WHERE name =? and city =? and Date =?";
-            try{
-                Static.name =fpusername.getText();
-                prepare = connect.prepareStatement(checkdeta);
-                prepare.setString(1,fpusername.getText());
-                prepare.setString(2,fpfavoritecity.getText());
-                prepare.setString(3, String.valueOf(fpbirthday.getValue()));
-                resultSet = prepare.executeQuery();
-                if(resultSet.next()){
-                    rename = fpusername.getText();
+    public void resetbtn(ActionEvent event) {
+        String username = fpusername.getText();
+        String city = fpfavoritecity.getText();
+        LocalDate birthday = fpbirthday.getValue();
+
+        if (username.isEmpty() || city.isEmpty() || birthday == null) {
+            Error error = new Error();
+            error.setfield("Please fill out all fields.");
+            return;
+        }
+
+        String query = "SELECT name FROM users WHERE name = ? AND city = ? AND Date = ?";
+
+        try (Connection connect = Database.CODB();
+             PreparedStatement prepare = connect.prepareStatement(query)) {
+
+            prepare.setString(1, username);
+            prepare.setString(2, city);
+            prepare.setDate(3, java.sql.Date.valueOf(fpbirthday.getValue()));
+
+            try (ResultSet resultSet = prepare.executeQuery()) {
+                if (resultSet.next()) {
+                    Static.name = username;
                     Switch s = new Switch();
-                    s.switchto(event,"ChangePass.fxml");
-                }else{
-                    error = new Error();
+                    s.switchto(event, "ChangePass.fxml");
+                } else {
+                    Error error = new Error();
                     error.setfield("Invalid information.");
                 }
-            }catch (Exception e){
-                e.printStackTrace();
             }
+
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+            Error error = new Error();
+            error.setfield("Database error.");
         }
     }
-    public void Change(){
-        if(nPass.getText().isEmpty() || nPass2.getText().isEmpty()){
-            error = new Error();
-            error.setfield("Please fill out all field");
-        }else if(nPass2.getText().equals(nPass.getText()) ){
-            try {
-                connect = Database.CODB();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            try{
-                String updatep = "UPDATE information SET password = '" + nPass.getText()+"' WHERE name = '"
-                        +Static.name+"'";
-                prepare = connect.prepareStatement(updatep);
-                prepare.executeUpdate();
-                error = new Error();
+
+    public void Change(ActionEvent event) {
+        String pass1 = nPass.getText();
+        String pass2 = nPass2.getText();
+
+        if (pass1.isEmpty() || pass2.isEmpty()) {
+            Error error = new Error();
+            error.setfield("Please fill out all fields.");
+            return;
+        }
+
+        if (!pass1.equals(pass2)) {
+            Error error = new Error();
+            error.setfield("The passwords do not match.");
+            return;
+        }
+
+        String updateQuery = "UPDATE users SET password = ? WHERE name = ?";
+
+        try (Connection connect = Database.CODB();
+             PreparedStatement prepare = connect.prepareStatement(updateQuery)) {
+
+            prepare.setString(1, pass1);
+            prepare.setString(2, Static.name);
+
+            int rows = prepare.executeUpdate();
+            Error error = new Error();
+            if (rows > 0) {
                 error.update("Successfully updated.");
-            }catch (Exception e){
-                e.printStackTrace();
+                switchtoLogin(event);
+            } else {
+                error.setfield("Failed to update password.");
             }
-        }else {
-            error = new Error();
-            error.setfield("The passwords are not same");
+
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+            Error error = new Error();
+            error.setfield("Database error.");
         }
     }
 }

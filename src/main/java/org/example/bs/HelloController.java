@@ -39,47 +39,52 @@ public class HelloController implements Initializable {
         Switch s1 = new Switch();
         s1.switchto(event, "ForgetPass.fxml");
     }
+
     public void loginbtn2(ActionEvent event) throws IOException {
         Static.name = usernamelog.getText();
-        if (usernamelog.getText().isEmpty() || passwordlog.getText().isEmpty()) {
-            error = new Error();
+
+        String username = usernamelog.getText();
+        String password = passwordlog.getText();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            Error error = new Error();
             error.setfield("Invalid information.");
-        } else {
-            String logdeta = "SELECT name, password FROM information WHERE name = ? and password = ? " +
-                    "and role = 'user'";
-            String logindeta = "SELECT name, password FROM information WHERE name = ? and password = ? " +
-                    "and role = 'admin'";
-            try {
-                connect = Database.CODB();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                prepare = connect.prepareStatement(logdeta);
-                prepare.setString(1, usernamelog.getText());
-                prepare.setString(2, passwordlog.getText());
-                resultSet = prepare.executeQuery();
+            return;
+        }
+
+        String query = "SELECT role FROM users WHERE name = ? AND password = ?";
+
+        try (Connection connect = Database.CODB();
+             PreparedStatement prepare = connect.prepareStatement(query)) {
+
+            prepare.setString(1, username);
+            prepare.setString(2, password);
+
+            try (ResultSet resultSet = prepare.executeQuery()) {
                 if (resultSet.next()) {
+                    String role = resultSet.getString("role");
                     Switch s1 = new Switch();
-                    s1.switchto(event, "UserPage.fxml");
-                } else {
-                    prepare = connect.prepareStatement(logindeta);
-                    prepare.setString(1, usernamelog.getText());
-                    prepare.setString(2, passwordlog.getText());
-                    resultSet = prepare.executeQuery();
-                    if(resultSet.next()){
-                        Switch s1 = new Switch();
+                    if ("user".equalsIgnoreCase(role)) {
+                        s1.switchto(event, "UserPage.fxml");
+                    } else if ("admin".equalsIgnoreCase(role)) {
                         s1.switchto(event, "Adminpage.fxml");
-                    }else {
-                        error = new Error();
-                        error.setfield("Invalid information.");
+                    } else {
+                        Error error = new Error();
+                        error.setfield("Invalid role.");
                     }
+                } else {
+                    Error error = new Error();
+                    error.setfield("Invalid information.");
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Error error = new Error();
+            error.setfield("Database error.");
         }
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
