@@ -5,10 +5,9 @@ public class Static {
     public static String date;
     public static String name;
     public static Integer id;
-    public static Integer cid;
-    public static String cdate;
+    public static Integer userId;
+    public static String bookId;
     public static String search;
-    public static String bookname;
     public static String mailPass = "wzlastqkpmpmeqwi";
 
     public final String subject = "Your account has been activated in our bookstore";

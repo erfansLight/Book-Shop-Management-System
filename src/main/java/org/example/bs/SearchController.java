@@ -53,14 +53,14 @@ public class SearchController implements Initializable {
         Static.search = textsearch.getText();
         showlist();
     }
-    public ObservableList<BookData> detaList() throws SQLException {
-        ObservableList<BookData> listdeta = FXCollections.observableArrayList();
-        String myadmin = "SELECT * FROM bookdeta WHERE bookname LIKE '%"+Static.search
+    public ObservableList<BookData> dataList() throws SQLException {
+        ObservableList<BookData> list_data = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM books WHERE bookname LIKE '%"+Static.search
                 +"%' OR Author LIKE '%"+Static.search+"%'";
         connect = Database.CODB();
 
         try {
-            prepare = connect.prepareStatement(myadmin);
+            prepare = connect.prepareStatement(sql);
             resultSet = prepare.executeQuery();
             BookData BD;
             while (resultSet.next()) {
@@ -73,18 +73,18 @@ public class SearchController implements Initializable {
                 BD.setPrice(resultSet.getDouble("price"));
                 BD.setAuthor(resultSet.getString("Author"));
                 BD.setDate(resultSet.getDate("date"));
-                listdeta.add(BD);
+                list_data.add(BD);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return listdeta;
+        return list_data;
     }
 
     private ObservableList<BookData> LI;
 
     public void showlist() throws SQLException {
-        LI = detaList();
+        LI = dataList();
         searchID.setCellValueFactory(new PropertyValueFactory<BookData, String>("ID"));
         searchname.setCellValueFactory(new PropertyValueFactory<BookData, String>("Name"));
         searchtype.setCellValueFactory(new PropertyValueFactory<BookData, String>("Type"));

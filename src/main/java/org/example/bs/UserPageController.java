@@ -66,13 +66,13 @@ public class UserPageController extends HelloController implements Initializable
     private TextField textproductID;
 
 
-    public ObservableList<BookData> detaList() throws SQLException {
+    public ObservableList<BookData> dataList() throws SQLException {
         ObservableList<BookData> listdeta = FXCollections.observableArrayList();
-        String myadmin = "SELECT * FROM bookdeta";
+        String sql = "SELECT * FROM books";
         connect = Database.CODB();
 
         try {
-            prepare = connect.prepareStatement(myadmin);
+            prepare = connect.prepareStatement(sql);
             resultSet = prepare.executeQuery();
             BookData bookDeta;
             while (resultSet.next()) {
@@ -95,8 +95,8 @@ public class UserPageController extends HelloController implements Initializable
 
     private ObservableList<BookData> List;
 
-    public void showDetalist() throws SQLException {
-        List = detaList();
+    public void showDatalist() throws SQLException {
+        List = dataList();
         customID.setCellValueFactory(new PropertyValueFactory<BookData, String>("ID"));
         customName.setCellValueFactory(new PropertyValueFactory<BookData, String>("Name"));
         customType.setCellValueFactory(new PropertyValueFactory<BookData, String>("Type"));
@@ -123,35 +123,71 @@ public class UserPageController extends HelloController implements Initializable
     public void Addbtn() throws SQLException {
         if (textQuantity.getText().isEmpty()) {
             error = new Error();
-            error.setfield("Please fill out all field");
-        } else {
-            try {
-                String insertdeta2 = "INSERT INTO checkpage" +
-                        " (bookid, bookname, type, price, Quantity, date)" + "VALUES(?,?,?,?,?,?)";
-                prepare = connect.prepareStatement(insertdeta2);
-                prepare = connect.prepareStatement(insertdeta2);
-                prepare.setString(1, textproductID.getText());
-                prepare.setString(2, textProductname.getText());
-                prepare.setString(3, textType.getText());
-                prepare.setString(4, textPrice.getText());
-                prepare.setString(5, textQuantity.getText());
+            error.setfield("Please fill out quantity field");
+            return;
+        }
 
-                java.util.Date date = new java.util.Date();
-                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                prepare.setString(6, String.valueOf(sqlDate));
+        connect = Database.CODB();
 
+        try {
+            String findBook = "SELECT id FROM books WHERE bookid = ?";
+            prepare = connect.prepareStatement(findBook);
+            prepare.setString(1, textproductID.getText());
+            resultSet = prepare.executeQuery();
+
+            int bookId;
+            if (resultSet.next()) {
+                bookId = resultSet.getInt("id");
+            } else {
+                error = new Error();
+                error.setfield("Book not found.");
+                return;
+            }
+
+            int quantity = Integer.parseInt(textQuantity.getText());
+
+            String checkSql = "SELECT quantity FROM cart WHERE user_id = ? AND book_id = ?";
+            prepare = connect.prepareStatement(checkSql);
+            prepare.setInt(1, Static.userId);
+            prepare.setInt(2, bookId);
+            resultSet = prepare.executeQuery();
+
+            if (resultSet.next()) {
+                int oldQuantity = resultSet.getInt("quantity");
+                int newQuantity = oldQuantity + quantity;
+
+                String updateSql = "UPDATE cart SET quantity = ?, added_at = CURRENT_TIMESTAMP " +
+                        "WHERE user_id = ? AND book_id = ?";
+                prepare = connect.prepareStatement(updateSql);
+                prepare.setInt(1, newQuantity);
+                prepare.setInt(2, Static.userId);
+                prepare.setInt(3, bookId);
                 prepare.executeUpdate();
 
                 error = new Error();
-                error.update("Successful");
+                error.update("Quantity updated in cart.");
+            } else {
+                String insertSql = "INSERT INTO cart (user_id, book_id, quantity) VALUES (?, ?, ?)";
+                prepare = connect.prepareStatement(insertSql);
+                prepare.setInt(1, Static.userId);
+                prepare.setInt(2, bookId);
+                prepare.setInt(3, quantity);
+                prepare.executeUpdate();
 
-                textQuantity.setText("");
-
-            } catch (Exception e) {
-                e.printStackTrace();
+                error = new Error();
+                error.update("Book added to cart successfully.");
             }
+
+            textQuantity.clear();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            error = new Error();
+            error.setfield("Error while adding to cart.");
         }
     }
+
+
     public void next(ActionEvent event) throws IOException {
         Switch s1 = new Switch();
         s1.switchto(event, "checkpage.fxml");
@@ -162,65 +198,49 @@ public class UserPageController extends HelloController implements Initializable
         s1.switchto(event, "Search.fxml");
     }
 
-    public void Wishbtn() throws SQLException {
-        if (textproductID.getText().isEmpty() || textProductname.getText().isEmpty() ||
-                textType.getText().isEmpty() || textAuthor.getText().isEmpty() ||
-                textPrice.getText().isEmpty() || textDescription.getText().isEmpty()) {
-            error = new Error();
-            error.setfield("Please fill out all field");
-        } else {
-            connect = Database.CODB();
-            try {
-                String checkname = "SELECT bookname FROM wishlist WHERE bookname = '" +
-                        textProductname.getText() + "' AND customername = '"+Static.name+"'";
-                prepare = connect.prepareStatement(checkname);
-                resultSet = prepare.executeQuery();
-                if (resultSet.next()) {
-                    error = new Error();
-                    error.setfield("This book has already added.");
-                } else {
-                    String insertdeta = "INSERT INTO WishList" +
-                            " (bookid, bookname, type, price, Description, Author, customername, date)" +
-                            "VALUES(?,?,?,?,?,?,?,?)";
-                    prepare = connect.prepareStatement(insertdeta);
-                    prepare = connect.prepareStatement(insertdeta);
-                    prepare.setString(1, textproductID.getText());
-                    prepare.setString(2, textProductname.getText());
-                    prepare.setString(3, textType.getText());
-                    prepare.setString(4, textPrice.getText());
-                    prepare.setString(5, textDescription.getText());
-                    prepare.setString(6, textAuthor.getText());
-                    prepare.setString(7, Static.name);
-
-                    java.util.Date date = new java.util.Date();
-                    java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                    prepare.setString(8, String.valueOf(sqlDate));
-
-                    prepare.executeUpdate();
-
-                    error = new Error();
-                    error.update("Successful");
-
-                    textQuantity.setText("");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public void showwishbtn(ActionEvent event) throws IOException {
         Switch s1 = new Switch();
         s1.switchto(event, "WishList.fxml");
     }
 
 
+    public void Wishbtn() {
+        try {
+            Connection connect = Database.CODB();
+            WishlistRepository repo = new WishlistRepository(connect);
+
+            String findBookSql = "SELECT id FROM books WHERE bookid = ?";
+            PreparedStatement stmt = connect.prepareStatement(findBookSql);
+            stmt.setString(1, textproductID.getText());
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int bookId = rs.getInt("id");
+
+                if (repo.isBookInWishlist(Static.userId, bookId)) {
+                    error = new Error();
+                    error.setfield("This book has already been added.");
+                } else {
+                    repo.addBookToWishlist(Static.userId, bookId);
+                    error = new Error();
+                    error.update("Book added to wishlist successfully.");
+                }
+            } else {
+                error = new Error();
+                error.setfield("Book not found.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            showDetalist();
+            showDatalist();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 }
+

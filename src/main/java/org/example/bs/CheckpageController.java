@@ -74,36 +74,40 @@ public class CheckpageController extends WishController implements Initializable
     @FXML
     private TextField textQu;
 
-    public ObservableList<SalesData> detaList2() throws SQLException {
-        ObservableList<SalesData> listdeta = FXCollections.observableArrayList();
-        String myadmin = "SELECT * FROM checkpage";
-        connect = Database.CODB();
+    public ObservableList<SalesData> dataListCart() throws SQLException {
+        ObservableList<SalesData> list_data = FXCollections.observableArrayList();
+        String sql = "SELECT c.book_id, b.bookid, b.bookname, b.type, b.price, c.quantity, c.added_at " +
+                "FROM cart c " +
+                "JOIN books b ON c.book_id = b.id " +
+                "WHERE c.user_id = ?";
 
+        connect = Database.CODB();
         try {
-            prepare = connect.prepareStatement(myadmin);
+            prepare = connect.prepareStatement(sql);
+            prepare.setInt(1, Static.userId);
             resultSet = prepare.executeQuery();
-            SalesData CD;
+
             while (resultSet.next()) {
-                CD = new SalesData();
-                CD.setId(resultSet.getInt("id"));
+                SalesData CD = new SalesData();
+                CD.setId(resultSet.getInt("book_id"));
                 CD.setID(resultSet.getString("bookid"));
                 CD.setName(resultSet.getString("bookname"));
                 CD.setType(resultSet.getString("type"));
                 CD.setPrice(resultSet.getDouble("price"));
-                CD.setQuantity(resultSet.getInt("Quantity"));
-                CD.setDate(resultSet.getDate("date"));
-                listdeta.add(CD);
+                CD.setQuantity(resultSet.getInt("quantity"));
+                CD.setDate(resultSet.getDate("added_at"));
+                list_data.add(CD);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return listdeta;
+        return list_data;
     }
 
-    private ObservableList<SalesData> List;
+    private ObservableList<SalesData> ListCart;
 
-    public void showDetalist2() throws SQLException {
-        List = detaList2();
+    public void showCartData() throws SQLException {
+        ListCart = dataListCart();
         checkID.setCellValueFactory(new PropertyValueFactory<SalesData, String>("ID"));
         checkName.setCellValueFactory(new PropertyValueFactory<SalesData, String>("Name"));
         checkType.setCellValueFactory(new PropertyValueFactory<SalesData, String>("Type"));
@@ -111,26 +115,25 @@ public class CheckpageController extends WishController implements Initializable
         checkQuantity.setCellValueFactory(new PropertyValueFactory<SalesData, String>("Quantity"));
         checkDate.setCellValueFactory(new PropertyValueFactory<SalesData, String>("Date"));
 
-        checktable.setItems(List);
+        checktable.setItems(ListCart);
     }
 
     public void select() {
-        SalesData customerDeta = checktable.getSelectionModel().getSelectedItem();
+        SalesData customerData = checktable.getSelectionModel().getSelectedItem();
 
-        textQu.setText(String.valueOf(customerDeta.getQuantity()));
-        textcheckID.setText(customerDeta.getID());
-        textcheckname.setText(customerDeta.getName());
-        textchecktype.setText(customerDeta.getType());
-        textcheckprice.setText(String.valueOf(customerDeta.getPrice()));
-        Static.cid = customerDeta.getid();
-        Static.cdate = String.valueOf(customerDeta.getDate());
+        textQu.setText(String.valueOf(customerData.getQuantity()));
+        textcheckID.setText(customerData.getID());
+        textcheckname.setText(customerData.getName());
+        textchecktype.setText(customerData.getType());
+        textcheckprice.setText(String.valueOf(customerData.getPrice()));
+        Static.bookId = customerData.getID();
     }
 
     public void buy(ActionEvent event) throws SQLException, IOException {
-        if(address.getText().isEmpty()){
+        if (address.getText().isEmpty()) {
             error = new Error();
             error.setfield("Please fill out all field");
-        }else {
+        } else {
             connect = Database.CODB();
             try {
                 String insertdeta = "INSERT INTO customer" +
@@ -142,7 +145,7 @@ public class CheckpageController extends WishController implements Initializable
                 prepare.setString(4, textcheckprice.getText());
                 prepare.setString(5, textQu.getText());
                 prepare.setString(6, Static.name);
-                prepare.setDouble(7, Double.parseDouble(textcheckprice.getText())*
+                prepare.setDouble(7, Double.parseDouble(textcheckprice.getText()) *
                         Double.parseDouble(textQu.getText()));
                 java.util.Date date = new java.util.Date();
                 java.sql.Date sqlDate = new java.sql.Date(date.getTime());
@@ -166,56 +169,108 @@ public class CheckpageController extends WishController implements Initializable
     }
 
     public void Deletebtn() {
-        if (Static.cid == 0) {
+        if (Static.bookId.isEmpty()) {
             error = new Error();
-            error.setfield("Please fill out all field");
-        } else {
-            String delet = "DELETE FROM checkpage WHERE id = " + Static.cid;
-            try {
-                prepare = connect.prepareStatement(delet);
-                prepare.executeUpdate();
-                error = new Error();
-                error.update("Successful");
-
-                showDetalist2();
-                textQu.setText("");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            error.setfield("Please select an item to delete");
+            return;
         }
-    }
 
-    public void update() throws SQLException {
-        if (Static.cid == 0 || textQu.getText().isEmpty()) {
-            error = new Error();
-            error.setfield("Please fill out all field");
-        } else {
-            String Update = "UPDATE checkpage SET bookid = '" + textcheckID.getText() + "', bookname = '" +
-                    textcheckname.getText() + "', type = '" + textchecktype.getText() + "', price = '" +
-                    textcheckprice.getText() + "', Quantity = '" + textQu.getText() +
-                    "', Date = '" + Static.cdate + "' WHERE id = " + Static.cid;
-
+        try {
             connect = Database.CODB();
-            try {
 
-                prepare = connect.prepareStatement(Update);
-                prepare.executeUpdate();
+            String findBookIdSql = "SELECT id FROM books WHERE bookid = ?";
+            prepare = connect.prepareStatement(findBookIdSql);
+            prepare.setString(1, Static.bookId);
+            resultSet = prepare.executeQuery();
 
+            int realBookId;
+            if (resultSet.next()) {
+                realBookId = resultSet.getInt("id");
+            } else {
                 error = new Error();
-                error.update("Successfully updated.");
-
-                showDetalist2();
-                textQu.setText("");
-            } catch (Exception e) {
-                e.printStackTrace();
+                error.setfield("Book not found in database.");
+                return;
             }
+
+            String deleteSql = "DELETE FROM cart WHERE book_id = ? AND user_id = ?";
+            prepare = connect.prepareStatement(deleteSql);
+            prepare.setInt(1, realBookId);
+            prepare.setInt(2, Static.userId);
+            int affectedRows = prepare.executeUpdate();
+
+            if (affectedRows > 0) {
+                error = new Error();
+                error.update("Item successfully removed from cart.");
+                showCartData();
+                textQu.setText("");
+            } else {
+                error = new Error();
+                error.setfield("Item not found in your cart.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            error = new Error();
+            error.setfield("Error while deleting from cart.");
         }
     }
+
+    public void update() {
+        if (textcheckID.getText().isEmpty() || textQu.getText().isEmpty()) {
+            error = new Error();
+            error.setfield("Please fill out all fields");
+            return;
+        }
+
+        try {
+            connect = Database.CODB();
+
+            String findBookSql = "SELECT id FROM books WHERE bookid = ?";
+            prepare = connect.prepareStatement(findBookSql);
+            prepare.setString(1, textcheckID.getText());
+            resultSet = prepare.executeQuery();
+
+            int realBookId;
+            if (resultSet.next()) {
+                realBookId = resultSet.getInt("id");
+            } else {
+                error = new Error();
+                error.setfield("Book not found in database.");
+                return;
+            }
+
+            int newQuantity = Integer.parseInt(textQu.getText());
+            String updateSql = "UPDATE cart SET quantity = ?, added_at = CURRENT_TIMESTAMP " +
+                    "WHERE book_id = ? AND user_id = ?";
+            prepare = connect.prepareStatement(updateSql);
+            prepare.setInt(1, newQuantity);
+            prepare.setInt(2, realBookId);
+            prepare.setInt(3, Static.userId);
+
+            int affectedRows = prepare.executeUpdate();
+
+            if (affectedRows > 0) {
+                error = new Error();
+                error.update("Quantity updated successfully.");
+                showCartData(); // بروزرسانی جدول UI
+                textQu.setText("");
+            } else {
+                error = new Error();
+                error.setfield("Item not found in your cart.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            error = new Error();
+            error.setfield("Error while updating cart.");
+        }
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            showDetalist2();
+            showCartData();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
