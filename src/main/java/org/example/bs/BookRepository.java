@@ -88,7 +88,34 @@ public class BookRepository {
             return rs.next();
         }
     }
+    public int getRealBookId(String bookId) throws SQLException {
+        String sql = "SELECT id FROM books WHERE bookid = ?";
+        try (Connection conn = Database.CODB();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, bookId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id");
+                } else {
+                    throw new SQLException("Book not found for bookid: " + bookId);
+                }
+            }
+        }
+    }
 
+    public double getBookPrice(int realBookId) throws SQLException {
+        String sql = "SELECT price FROM books WHERE id = ?";
+        try (Connection conn = Database.CODB();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, realBookId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDouble("price");
+                } else {
+                    throw new SQLException("Book price not found for id: " + realBookId);
+                }
+            }
+        }
+    }
 }
-
 
