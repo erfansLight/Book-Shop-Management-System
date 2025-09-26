@@ -24,7 +24,7 @@ import static javafx.fxml.FXMLLoader.load;
 public class CheckpageController extends WishController implements Initializable {
 
     private BookRepository bookRepo = new BookRepository();
-    private Error error;
+    private AlterBox alterBox;
     private Stage stage;
     private Scene scene;
 
@@ -55,6 +55,8 @@ public class CheckpageController extends WishController implements Initializable
 
     private ObservableList<SalesData> ListCart;
 
+    int userId = UserSession.getCurrentUser().getId();
+
     public ObservableList<SalesData> dataListCart() throws SQLException {
         ObservableList<SalesData> list_data = FXCollections.observableArrayList();
         String sql = "SELECT c.book_id, b.bookid, b.bookname, b.type, b.price, c.quantity, c.added_at " +
@@ -62,7 +64,7 @@ public class CheckpageController extends WishController implements Initializable
         try (var conn = Database.CODB();
              var prepare = conn.prepareStatement(sql)) {
 
-            prepare.setInt(1, Static.userId);
+            prepare.setInt(1, userId);
             var resultSet = prepare.executeQuery();
             while (resultSet.next()) {
                 SalesData CD = new SalesData();
@@ -100,13 +102,13 @@ public class CheckpageController extends WishController implements Initializable
         textcheckname.setText(customerData.getName());
         textchecktype.setText(customerData.getType());
         textcheckprice.setText(String.valueOf(customerData.getPrice()));
-        Static.bookId = customerData.getID();
+        Constants.bookId = customerData.getID();
     }
 
     public void buy(ActionEvent event) throws SQLException, IOException {
         if (textQu.getText().isEmpty()) {
-            error = new Error();
-            error.setfield("Please fill out quantity field");
+            alterBox = new AlterBox();
+            alterBox.error("Please fill out quantity field");
             return;
         }
 
@@ -121,7 +123,7 @@ public class CheckpageController extends WishController implements Initializable
                      "INSERT INTO orders (user_id, book_id, quantity, total_price, created_at) " +
                              "VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)")) {
 
-            prepare.setInt(1, Static.userId);
+            prepare.setInt(1, userId);
             prepare.setInt(2, realBookId);
             prepare.setInt(3, quantity);
             prepare.setDouble(4, totalPrice);
@@ -133,13 +135,13 @@ public class CheckpageController extends WishController implements Initializable
              var prepare = conn.prepareStatement(
                      "DELETE FROM cart WHERE user_id = ? AND book_id = ?")) {
 
-            prepare.setInt(1, Static.userId);
+            prepare.setInt(1, userId);
             prepare.setInt(2, realBookId);
             prepare.executeUpdate();
         }
 
-        error = new Error();
-        error.update("Purchase successful!");
+        alterBox = new AlterBox();
+        alterBox.update("Purchase successful!");
         textQu.clear();
 
         Parent root = load(getClass().getResource("UserPage.fxml"));
@@ -152,44 +154,44 @@ public class CheckpageController extends WishController implements Initializable
     @Override
     public void Deletebtn() {
         try {
-            if (Static.bookId.isEmpty()) {
-                error = new Error();
-                error.setfield("Please select an item to delete");
+            if (Constants.bookId.isEmpty()) {
+                alterBox = new AlterBox();
+                alterBox.error("Please select an item to delete");
                 return;
             }
 
-            int realBookId = bookRepo.getRealBookId(Static.bookId);
+            int realBookId = bookRepo.getRealBookId(Constants.bookId);
 
             try (var conn = Database.CODB();
                  var prepare = conn.prepareStatement(
                          "DELETE FROM cart WHERE book_id = ? AND user_id = ?")) {
 
                 prepare.setInt(1, realBookId);
-                prepare.setInt(2, Static.userId);
+                prepare.setInt(2, userId);
                 int affectedRows = prepare.executeUpdate();
 
                 if (affectedRows > 0) {
-                    error = new Error();
-                    error.update("Item successfully removed from cart.");
+                    alterBox = new AlterBox();
+                    alterBox.update("Item successfully removed from cart.");
                     showCartData();
                     textQu.setText("");
                 } else {
-                    error = new Error();
-                    error.setfield("Item not found in your cart.");
+                    alterBox = new AlterBox();
+                    alterBox.error("Item not found in your cart.");
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            error = new Error();
-            error.setfield("Error while deleting from cart.");
+            alterBox = new AlterBox();
+            alterBox.error("Error while deleting from cart.");
         }
     }
 
 
     public void update() throws SQLException {
         if (textcheckID.getText().isEmpty() || textQu.getText().isEmpty()) {
-            error = new Error();
-            error.setfield("Please fill out all fields");
+            alterBox = new AlterBox();
+            alterBox.error("Please fill out all fields");
             return;
         }
 
@@ -202,17 +204,17 @@ public class CheckpageController extends WishController implements Initializable
 
             prepare.setInt(1, newQuantity);
             prepare.setInt(2, realBookId);
-            prepare.setInt(3, Static.userId);
+            prepare.setInt(3, userId);
             int affectedRows = prepare.executeUpdate();
 
             if (affectedRows > 0) {
-                error = new Error();
-                error.update("Quantity updated successfully.");
+                alterBox = new AlterBox();
+                alterBox.update("Quantity updated successfully.");
                 showCartData();
                 textQu.setText("");
             } else {
-                error = new Error();
-                error.setfield("Item not found in your cart.");
+                alterBox = new AlterBox();
+                alterBox.error("Item not found in your cart.");
             }
         }
     }

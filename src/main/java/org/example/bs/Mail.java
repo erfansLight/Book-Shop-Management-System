@@ -8,8 +8,8 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import java.util.Properties;
 
-public class mail {
-    Static s = new Static();
+public class Mail {
+    Constants s = new Constants();
     public void email(String fromMail, String fromPassword, String toMail) {
         try {
             final String user = fromMail, password = fromPassword;

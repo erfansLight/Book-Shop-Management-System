@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import static javafx.fxml.FXMLLoader.load;
 
-public class Switch {
+public class SwitchScene {
     Stage stage;
     Scene scene;
 

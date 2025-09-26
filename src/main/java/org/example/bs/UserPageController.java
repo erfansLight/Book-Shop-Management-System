@@ -14,11 +14,11 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 
-public class UserPageController extends HelloController implements Initializable {
+public class UserPageController extends LoginController implements Initializable {
     private Connection connect;
     private PreparedStatement prepare;
     private ResultSet resultSet;
-    private Error error;
+    private AlterBox alterBox;
 
     @FXML
     private TableView<BookData> Usertableview;
@@ -65,6 +65,8 @@ public class UserPageController extends HelloController implements Initializable
     @FXML
     private TextField textproductID;
 
+
+    int userId = UserSession.getCurrentUser().getId();
 
     public ObservableList<BookData> dataList() throws SQLException {
         ObservableList<BookData> listdeta = FXCollections.observableArrayList();
@@ -117,13 +119,13 @@ public class UserPageController extends HelloController implements Initializable
         textAuthor.setText(bt.getAuthor());
         textPrice.setText(String.valueOf(bt.getPrice()));
         textDescription.setText(bt.getDescription());
-        Static.id = bt.getId();
+        Constants.id = bt.getId();
     }
 
     public void Addbtn() throws SQLException {
         if (textQuantity.getText().isEmpty()) {
-            error = new Error();
-            error.setfield("Please fill out quantity field");
+            alterBox = new AlterBox();
+            alterBox.error("Please fill out quantity field");
             return;
         }
 
@@ -139,8 +141,8 @@ public class UserPageController extends HelloController implements Initializable
             if (resultSet.next()) {
                 bookId = resultSet.getInt("id");
             } else {
-                error = new Error();
-                error.setfield("Book not found.");
+                alterBox = new AlterBox();
+                alterBox.error("Book not found.");
                 return;
             }
 
@@ -148,7 +150,7 @@ public class UserPageController extends HelloController implements Initializable
 
             String checkSql = "SELECT quantity FROM cart WHERE user_id = ? AND book_id = ?";
             prepare = connect.prepareStatement(checkSql);
-            prepare.setInt(1, Static.userId);
+            prepare.setInt(1, userId);
             prepare.setInt(2, bookId);
             resultSet = prepare.executeQuery();
 
@@ -160,46 +162,46 @@ public class UserPageController extends HelloController implements Initializable
                         "WHERE user_id = ? AND book_id = ?";
                 prepare = connect.prepareStatement(updateSql);
                 prepare.setInt(1, newQuantity);
-                prepare.setInt(2, Static.userId);
+                prepare.setInt(2, userId);
                 prepare.setInt(3, bookId);
                 prepare.executeUpdate();
 
-                error = new Error();
-                error.update("Quantity updated in cart.");
+                alterBox = new AlterBox();
+                alterBox.update("Quantity updated in cart.");
             } else {
                 String insertSql = "INSERT INTO cart (user_id, book_id, quantity) VALUES (?, ?, ?)";
                 prepare = connect.prepareStatement(insertSql);
-                prepare.setInt(1, Static.userId);
+                prepare.setInt(1, userId);
                 prepare.setInt(2, bookId);
                 prepare.setInt(3, quantity);
                 prepare.executeUpdate();
 
-                error = new Error();
-                error.update("Book added to cart successfully.");
+                alterBox = new AlterBox();
+                alterBox.update("Book added to cart successfully.");
             }
 
             textQuantity.clear();
 
         } catch (Exception e) {
             e.printStackTrace();
-            error = new Error();
-            error.setfield("Error while adding to cart.");
+            alterBox = new AlterBox();
+            alterBox.error("Error while adding to cart.");
         }
     }
 
 
     public void next(ActionEvent event) throws IOException {
-        Switch s1 = new Switch();
+        SwitchScene s1 = new SwitchScene();
         s1.switchto(event, "checkpage.fxml");
     }
 
     public void search(ActionEvent event) throws IOException {
-        Switch s1 = new Switch();
+        SwitchScene s1 = new SwitchScene();
         s1.switchto(event, "Search.fxml");
     }
 
     public void showwishbtn(ActionEvent event) throws IOException {
-        Switch s1 = new Switch();
+        SwitchScene s1 = new SwitchScene();
         s1.switchto(event, "WishList.fxml");
     }
 
@@ -217,17 +219,17 @@ public class UserPageController extends HelloController implements Initializable
             if (rs.next()) {
                 int bookId = rs.getInt("id");
 
-                if (repo.isBookInWishlist(Static.userId, bookId)) {
-                    error = new Error();
-                    error.setfield("This book has already been added.");
+                if (repo.isBookInWishlist(userId, bookId)) {
+                    alterBox = new AlterBox();
+                    alterBox.error("This book has already been added.");
                 } else {
-                    repo.addBookToWishlist(Static.userId, bookId);
-                    error = new Error();
-                    error.update("Book added to wishlist successfully.");
+                    repo.addBookToWishlist(userId, bookId);
+                    alterBox = new AlterBox();
+                    alterBox.update("Book added to wishlist successfully.");
                 }
             } else {
-                error = new Error();
-                error.setfield("Book not found.");
+                alterBox = new AlterBox();
+                alterBox.error("Book not found.");
             }
         } catch (Exception e) {
             e.printStackTrace();

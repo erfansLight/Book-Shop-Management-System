@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 
 
 
-public class Saleslist extends HelloController implements Initializable {
+public class Saleslist extends LoginController implements Initializable {
 
     @FXML
     private TextField TI;
@@ -77,7 +77,7 @@ public class Saleslist extends HelloController implements Initializable {
     private Stage stage;
     private Scene scene;
     public void back(ActionEvent event) throws IOException {
-        Switch s1 = new Switch();
+        SwitchScene s1 = new SwitchScene();
         s1.switchto(event, "Adminpage.fxml");
     }
 

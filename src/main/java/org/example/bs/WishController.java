@@ -26,6 +26,7 @@ public class WishController implements Initializable {
 
     private ObservableList<wishData> wishList;
     private WishlistRepository wishlistRepo;
+    int userId = UserSession.getCurrentUser().getId();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -39,7 +40,7 @@ public class WishController implements Initializable {
     }
 
     private void loadWishlist() throws SQLException {
-        wishList = FXCollections.observableArrayList(wishlistRepo.getWishlist(Static.userId));
+        wishList = FXCollections.observableArrayList(wishlistRepo.getWishlist(userId));
 
         wishID.setCellValueFactory(new PropertyValueFactory<>("ID"));
         wishname.setCellValueFactory(new PropertyValueFactory<>("Name"));
@@ -62,7 +63,7 @@ public class WishController implements Initializable {
     public void Deletebtn() {
         try {
             int wishlistId = Integer.parseInt(delete.getText());
-            wishlistRepo.removeBookFromWishlist(Static.userId, wishlistId);
+            wishlistRepo.removeBookFromWishlist(userId, wishlistId);
             loadWishlist();
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,7 +72,7 @@ public class WishController implements Initializable {
 
     public void back(ActionEvent event) {
         try {
-            new Switch().switchto(event, "UserPage.fxml");
+            new SwitchScene().switchto(event, "UserPage.fxml");
         } catch (Exception e) {
             e.printStackTrace();
         }

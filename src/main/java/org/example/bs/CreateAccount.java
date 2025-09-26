@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CreateAccount extends HelloController {
+public class CreateAccount extends LoginController {
     @FXML
     private TextField QuestionCR;
 
@@ -27,7 +27,7 @@ public class CreateAccount extends HelloController {
 
     @FXML
     private TextField usernameCR;
-    private Error error;
+    private AlterBox alterBox;
     Connection connect;
     PreparedStatement prepare;
     ResultSet resultSet;
@@ -80,8 +80,8 @@ public class CreateAccount extends HelloController {
                 insertStmt.executeUpdate();
             }
 
-            mail sendEmail = new mail();
-            sendEmail.email("sltanyh468@gmail.com", Static.mailPass, email.getText());
+            Mail sendEmail = new Mail();
+            sendEmail.email("sltanyh468@gmail.com", Constants.mailPass, email.getText());
 
             showSuccess("Successfully registered account.");
             clearFields();
@@ -97,13 +97,13 @@ public class CreateAccount extends HelloController {
     }
 
     private void showError(String msg) {
-        error = new Error();
-        error.setfield(msg);
+        alterBox = new AlterBox();
+        alterBox.error(msg);
     }
 
     private void showSuccess(String msg) {
-        error = new Error();
-        error.update(msg);
+        alterBox = new AlterBox();
+        alterBox.update(msg);
     }
 
     private void clearFields() {

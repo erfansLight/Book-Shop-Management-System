@@ -1,11 +1,9 @@
 package org.example.bs;
 
-public class Static {
+public class Constants {
     public static String createname;
     public static String date;
-    public static String name;
     public static Integer id;
-    public static Integer userId;
     public static String bookId;
     public static String search;
     public static String mailPass = "wzlastqkpmpmeqwi";

@@ -2,9 +2,9 @@ package org.example.bs;
 
 import javafx.scene.control.Alert;
 
-public class Error {
+public class AlterBox {
     private Alert alert;
-    public void setfield(String mg){
+    public void error(String mg){
         alert = new Alert(Alert.AlertType.ERROR);
 
         alert.setTitle("Error");

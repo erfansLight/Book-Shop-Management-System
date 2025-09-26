@@ -50,13 +50,13 @@ public class SearchController implements Initializable {
     private TextField textsearch;
 
     public void search() throws SQLException {
-        Static.search = textsearch.getText();
+        Constants.search = textsearch.getText();
         showlist();
     }
     public ObservableList<BookData> dataList() throws SQLException {
         ObservableList<BookData> list_data = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM books WHERE bookname LIKE '%"+Static.search
-                +"%' OR Author LIKE '%"+Static.search+"%'";
+        String sql = "SELECT * FROM books WHERE bookname LIKE '%"+ Constants.search
+                +"%' OR Author LIKE '%"+ Constants.search+"%'";
         connect = Database.CODB();
 
         try {
@@ -96,7 +96,7 @@ public class SearchController implements Initializable {
         searchtable.setItems(LI);
     }
     public void back(ActionEvent event) throws IOException {
-        Switch s1 = new Switch();
+        SwitchScene s1 = new SwitchScene();
         s1.switchto(event, "UserPage.fxml");
     }
     @Override

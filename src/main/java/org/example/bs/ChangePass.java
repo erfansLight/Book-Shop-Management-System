@@ -16,7 +16,7 @@ import java.time.LocalDate;
 
 import static javafx.fxml.FXMLLoader.load;
 
-public class ChangePass extends HelloController{
+public class ChangePass extends LoginController {
     @FXML
     private DatePicker fpbirthday;
     @FXML
@@ -29,11 +29,6 @@ public class ChangePass extends HelloController{
     private PasswordField nPass;
     @FXML
     private PasswordField nPass2;
-    private Error error;
-    private Connection connect;
-    private PreparedStatement prepare;
-    private ResultSet resultSet;
-    private String rename;
 
 
     public void resetbtn(ActionEvent event) {
@@ -42,8 +37,8 @@ public class ChangePass extends HelloController{
         LocalDate birthday = fpbirthday.getValue();
 
         if (username.isEmpty() || city.isEmpty() || birthday == null) {
-            Error error = new Error();
-            error.setfield("Please fill out all fields.");
+            AlterBox alterBox = new AlterBox();
+            alterBox.error("Please fill out all fields.");
             return;
         }
 
@@ -58,19 +53,22 @@ public class ChangePass extends HelloController{
 
             try (ResultSet resultSet = prepare.executeQuery()) {
                 if (resultSet.next()) {
-                    Static.name = username;
-                    Switch s = new Switch();
+                    User user = new User();
+                    user.setName(username);
+                    UserSession.setCurrentUser(user);
+
+                    SwitchScene s = new SwitchScene();
                     s.switchto(event, "ChangePass.fxml");
                 } else {
-                    Error error = new Error();
-                    error.setfield("Invalid information.");
+                    AlterBox alterBox = new AlterBox();
+                    alterBox.error("Invalid information.");
                 }
             }
 
         } catch (SQLException | IOException e) {
             e.printStackTrace();
-            Error error = new Error();
-            error.setfield("Database error.");
+            AlterBox alterBox = new AlterBox();
+            alterBox.error("Database error.");
         }
     }
 
@@ -79,14 +77,14 @@ public class ChangePass extends HelloController{
         String pass2 = nPass2.getText();
 
         if (pass1.isEmpty() || pass2.isEmpty()) {
-            Error error = new Error();
-            error.setfield("Please fill out all fields.");
+            AlterBox alterBox = new AlterBox();
+            alterBox.error("Please fill out all fields.");
             return;
         }
 
         if (!pass1.equals(pass2)) {
-            Error error = new Error();
-            error.setfield("The passwords do not match.");
+            AlterBox alterBox = new AlterBox();
+            alterBox.error("The passwords do not match.");
             return;
         }
 
@@ -96,21 +94,21 @@ public class ChangePass extends HelloController{
              PreparedStatement prepare = connect.prepareStatement(updateQuery)) {
 
             prepare.setString(1, pass1);
-            prepare.setString(2, Static.name);
+            prepare.setString(2, UserSession.getCurrentUser().getName());
 
             int rows = prepare.executeUpdate();
-            Error error = new Error();
+            AlterBox alterBox = new AlterBox();
             if (rows > 0) {
-                error.update("Successfully updated.");
+                alterBox.update("Successfully updated.");
                 switchtoLogin(event);
             } else {
-                error.setfield("Failed to update password.");
+                alterBox.error("Failed to update password.");
             }
 
         } catch (SQLException | IOException e) {
             e.printStackTrace();
-            Error error = new Error();
-            error.setfield("Database error.");
+            AlterBox alterBox = new AlterBox();
+            alterBox.error("Database error.");
         }
     }
 }
