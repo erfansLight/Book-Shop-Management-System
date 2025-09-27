@@ -18,17 +18,15 @@ public class LoginController implements Initializable {
     @FXML
     private TextField usernamelog;
 
-    private final UserRepository userRepository = new UserRepository();
+    private final AuthService authService = new AuthService();
     private final AlterBox alterBox = new AlterBox();
 
     public void switchtoCreateAcc(ActionEvent event) throws IOException {
-        SwitchScene s1 = new SwitchScene();
-        s1.switchto(event, "CreateAccount.fxml");
+        new SwitchScene().switchto(event, "CreateAccount.fxml");
     }
 
     public void switchtoLogin(ActionEvent event) throws IOException {
-        SwitchScene s1 = new SwitchScene();
-        s1.switchto(event, "hello-view.fxml");
+        new SwitchScene().switchto(event, "hello-view.fxml");
     }
 
     public void switchForgetPass(ActionEvent event) throws IOException {
@@ -36,74 +34,32 @@ public class LoginController implements Initializable {
         s1.switchto(event, "ForgetPass.fxml");
     }
 
-//    public void loginbtn2(ActionEvent event) throws IOException {
-//        String username = usernamelog.getText();
-//        String password = passwordlog.getText();
-//
-//        if (username.isEmpty() || password.isEmpty()) {
-//            alterBox.error("Invalid information.");
-//            return;
-//        }
-//
-//        try {
-//            User user = userRepository.findByUsernameAndPassword(username, password);
-//
-//            if (user != null) {
-//                Constants.userId = user.getId();
-//                Constants.name = user.getName();
-//
-//                SwitchScene s1 = new SwitchScene();
-//                if ("user".equalsIgnoreCase(user.getRole())) {
-//                    s1.switchto(event, "UserPage.fxml");
-//                } else if ("admin".equalsIgnoreCase(user.getRole())) {
-//                    s1.switchto(event, "AdminPage.fxml");
-//                } else {
-//                    alterBox.error("Invalid role.");
-//                }
-//            } else {
-//                alterBox.error("Invalid username or password.");
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            alterBox.error("Database error.");
-//        }
-//    }
-public void loginbtn2(ActionEvent event) throws IOException {
-    String username = usernamelog.getText();
-    String password = passwordlog.getText();
+    public void loginbtn2(ActionEvent event) throws IOException {
+        String username = usernamelog.getText();
+        String password = passwordlog.getText();
 
-    if (username.isEmpty() || password.isEmpty()) {
-        alterBox.error("Invalid information.");
-        return;
-    }
+        try {
+            User user = authService.login(username, password);
+            if (user != null) {
+                UserSession.setCurrentUser(user);
 
-    try {
-        User user = userRepository.findByUsernameAndPassword(username, password);
-
-        if (user != null) {
-            UserSession.setCurrentUser(user);
-
-            SwitchScene s1 = new SwitchScene();
-            if ("user".equalsIgnoreCase(user.getRole())) {
-                s1.switchto(event, "UserPage.fxml");
-            } else if ("admin".equalsIgnoreCase(user.getRole())) {
-                s1.switchto(event, "AdminPage.fxml");
+                SwitchScene s1 = new SwitchScene();
+                if ("user".equalsIgnoreCase(user.getRole())) {
+                    s1.switchto(event, "UserPage.fxml");
+                } else if ("admin".equalsIgnoreCase(user.getRole())) {
+                    s1.switchto(event, "AdminPage.fxml");
+                } else {
+                    alterBox.error("Invalid role.");
+                }
             } else {
-                alterBox.error("Invalid role.");
+                alterBox.error("Invalid username or password.");
             }
-        } else {
-            alterBox.error("Invalid username or password.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            alterBox.error("Database error.");
         }
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        alterBox.error("Database error.");
     }
-}
-
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-    }
+    public void initialize(URL url, ResourceBundle resourceBundle) { }
 }

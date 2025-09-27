@@ -20,28 +20,28 @@ import static javafx.fxml.FXMLLoader.load;
 public class AdminController extends LoginController implements Initializable {
 
     @FXML
-    private TableView<BookData> dashbordtableview;
+    private TableView<Book> dashbordtableview;
 
     @FXML
-    private TableColumn<BookData, String> dashcolAuthor;
+    private TableColumn<Book, String> dashcolAuthor;
 
     @FXML
-    private TableColumn<BookData, String> dashcolDate;
+    private TableColumn<Book, String> dashcolDate;
 
     @FXML
-    private TableColumn<BookData, String> dashcolDescription;
+    private TableColumn<Book, String> dashcolDescription;
 
     @FXML
-    private TableColumn<BookData, String> dashcolIDProduct;
+    private TableColumn<Book, String> dashcolIDProduct;
 
     @FXML
-    private TableColumn<BookData, String> dashcolPrice;
+    private TableColumn<Book, String> dashcolPrice;
 
     @FXML
-    private TableColumn<BookData, String> dashcolProductname;
+    private TableColumn<Book, String> dashcolProductname;
 
     @FXML
-    private TableColumn<BookData, String> dashcolType;
+    private TableColumn<Book, String> dashcolType;
 
     @FXML
     private TextField textAuthor;
@@ -69,7 +69,7 @@ public class AdminController extends LoginController implements Initializable {
 
 
     private final BookRepository repo = new BookRepository();
-    private ObservableList<BookData> list;
+    private ObservableList<Book> list;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -106,7 +106,7 @@ public class AdminController extends LoginController implements Initializable {
                 return;
             }
 
-            BookData book = new BookData();
+            Book book = new Book();
             book.setID(textproductID.getText());
             book.setName(textProductname.getText());
             book.setType(textType.getText());
@@ -122,7 +122,7 @@ public class AdminController extends LoginController implements Initializable {
     }
 
     public void Updatebtn() throws SQLException {
-        BookData selected = dashbordtableview.getSelectionModel().getSelectedItem();
+        Book selected = dashbordtableview.getSelectionModel().getSelectedItem();
         if (selected == null) {
             alterBox = new AlterBox();
             alterBox.error("Select a row first");
@@ -143,7 +143,7 @@ public class AdminController extends LoginController implements Initializable {
     }
 
     public void Deletebtn() throws SQLException {
-        BookData selected = dashbordtableview.getSelectionModel().getSelectedItem();
+        Book selected = dashbordtableview.getSelectionModel().getSelectedItem();
         if (selected == null) {
             alterBox = new AlterBox();
             alterBox.error("Select a row first");
@@ -164,7 +164,7 @@ public class AdminController extends LoginController implements Initializable {
     }
 
     public void Select() {
-        BookData bt = dashbordtableview.getSelectionModel().getSelectedItem();
+        Book bt = dashbordtableview.getSelectionModel().getSelectedItem();
         if (bt != null) {
             textproductID.setText(bt.getID());
             textProductname.setText(bt.getName());

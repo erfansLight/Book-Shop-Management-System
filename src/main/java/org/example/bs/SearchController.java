@@ -24,27 +24,27 @@ public class SearchController implements Initializable {
     private PreparedStatement prepare;
     private ResultSet resultSet;
     @FXML
-    private TableColumn<BookData, String> searchDate;
+    private TableColumn<Book, String> searchDate;
 
     @FXML
-    private TableColumn<BookData, String> searchID;
+    private TableColumn<Book, String> searchID;
 
     @FXML
-    private TableColumn<BookData, String> searchauthor;
+    private TableColumn<Book, String> searchauthor;
 
     @FXML
-    private TableColumn<BookData, String> searchdis;
+    private TableColumn<Book, String> searchdis;
 
     @FXML
-    private TableColumn<BookData, String> searchname;
+    private TableColumn<Book, String> searchname;
 
     @FXML
-    private TableColumn<BookData, String> searchprice;
+    private TableColumn<Book, String> searchprice;
 
     @FXML
-    private TableColumn<BookData, String> searchtype;
+    private TableColumn<Book, String> searchtype;
     @FXML
-    private TableView<BookData> searchtable;
+    private TableView<Book> searchtable;
 
     @FXML
     private TextField textsearch;
@@ -53,8 +53,8 @@ public class SearchController implements Initializable {
         Constants.search = textsearch.getText();
         showlist();
     }
-    public ObservableList<BookData> dataList() throws SQLException {
-        ObservableList<BookData> list_data = FXCollections.observableArrayList();
+    public ObservableList<Book> dataList() throws SQLException {
+        ObservableList<Book> list_data = FXCollections.observableArrayList();
         String sql = "SELECT * FROM books WHERE bookname LIKE '%"+ Constants.search
                 +"%' OR Author LIKE '%"+ Constants.search+"%'";
         connect = Database.CODB();
@@ -62,9 +62,9 @@ public class SearchController implements Initializable {
         try {
             prepare = connect.prepareStatement(sql);
             resultSet = prepare.executeQuery();
-            BookData BD;
+            Book BD;
             while (resultSet.next()) {
-                BD = new BookData();
+                BD = new Book();
                 BD.setId(resultSet.getInt("id"));
                 BD.setID(resultSet.getString("bookid"));
                 BD.setName(resultSet.getString("bookname"));
@@ -81,17 +81,17 @@ public class SearchController implements Initializable {
         return list_data;
     }
 
-    private ObservableList<BookData> LI;
+    private ObservableList<Book> LI;
 
     public void showlist() throws SQLException {
         LI = dataList();
-        searchID.setCellValueFactory(new PropertyValueFactory<BookData, String>("ID"));
-        searchname.setCellValueFactory(new PropertyValueFactory<BookData, String>("Name"));
-        searchtype.setCellValueFactory(new PropertyValueFactory<BookData, String>("Type"));
-        searchdis.setCellValueFactory(new PropertyValueFactory<BookData, String>("Description"));
-        searchprice.setCellValueFactory(new PropertyValueFactory<BookData, String>("Price"));
-        searchauthor.setCellValueFactory(new PropertyValueFactory<BookData, String>("Author"));
-        searchDate.setCellValueFactory(new PropertyValueFactory<BookData, String>("Date"));
+        searchID.setCellValueFactory(new PropertyValueFactory<Book, String>("ID"));
+        searchname.setCellValueFactory(new PropertyValueFactory<Book, String>("Name"));
+        searchtype.setCellValueFactory(new PropertyValueFactory<Book, String>("Type"));
+        searchdis.setCellValueFactory(new PropertyValueFactory<Book, String>("Description"));
+        searchprice.setCellValueFactory(new PropertyValueFactory<Book, String>("Price"));
+        searchauthor.setCellValueFactory(new PropertyValueFactory<Book, String>("Author"));
+        searchDate.setCellValueFactory(new PropertyValueFactory<Book, String>("Date"));
 
         searchtable.setItems(LI);
     }

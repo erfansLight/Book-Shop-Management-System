@@ -6,8 +6,8 @@ import java.util.List;
 
 public class BookRepository {
 
-    public List<BookData> findAll() throws SQLException {
-        List<BookData> books = new ArrayList<>();
+    public List<Book> findAll() throws SQLException {
+        List<Book> books = new ArrayList<>();
         String sql = "SELECT * FROM books";
 
         try (Connection conn = Database.CODB();
@@ -15,7 +15,7 @@ public class BookRepository {
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                BookData book = new BookData();
+                Book book = new Book();
                 book.setId(rs.getInt("id"));
                 book.setID(rs.getString("bookid"));
                 book.setName(rs.getString("bookname"));
@@ -31,7 +31,7 @@ public class BookRepository {
         return books;
     }
 
-    public void save(BookData book) throws SQLException {
+    public void save(Book book) throws SQLException {
         String sql = "INSERT INTO books (bookid, bookname, type, description, price, author, date) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -50,7 +50,7 @@ public class BookRepository {
         }
     }
 
-    public void update(BookData book) throws SQLException {
+    public void update(Book book) throws SQLException {
         String sql = "UPDATE books SET bookid=?, bookname=?, type=?, description=?, price=?, author=?, date=? WHERE id=?";
 
         try (Connection conn = Database.CODB();

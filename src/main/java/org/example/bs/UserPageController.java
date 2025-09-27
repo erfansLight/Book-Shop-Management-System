@@ -10,239 +10,159 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 
-
 public class UserPageController extends LoginController implements Initializable {
-    private Connection connect;
-    private PreparedStatement prepare;
-    private ResultSet resultSet;
+
+    private int userId;
+    private UserPageService userService;
+    private BookRepository bookRepo;
     private AlterBox alterBox;
 
     @FXML
-    private TableView<BookData> Usertableview;
-
+    private TableView<Book> Usertableview;
     @FXML
-    private TableColumn<BookData, String> customName;
-
+    private TableColumn<Book, String> customID;
     @FXML
-    private TableColumn<BookData, String> customAuthor;
-
+    private TableColumn<Book, String> customName;
     @FXML
-    private TableColumn<BookData, String> customDate;
-
+    private TableColumn<Book, String> customType;
     @FXML
-    private TableColumn<BookData, String> customDescription;
-
+    private TableColumn<Book, String> customDescription;
     @FXML
-    private TableColumn<BookData, String> customID;
-
+    private TableColumn<Book, String> customPrice;
     @FXML
-    private TableColumn<BookData, String> customPrice;
-
+    private TableColumn<Book, String> customAuthor;
     @FXML
-    private TableColumn<BookData, String> customType;
-
-    @FXML
-    private TextField textAuthor;
-
-    @FXML
-    private TextField textDescription;
-
-    @FXML
-    private TextField textPrice;
-
-    @FXML
-    private TextField textProductname;
-
-    @FXML
-    private TextField textQuantity;
-
-    @FXML
-    private TextField textType;
+    private TableColumn<Book, String> customDate;
 
     @FXML
     private TextField textproductID;
+    @FXML
+    private TextField textProductname;
+    @FXML
+    private TextField textType;
+    @FXML
+    private TextField textAuthor;
+    @FXML
+    private TextField textPrice;
+    @FXML
+    private TextField textDescription;
+    @FXML
+    private TextField textQuantity;
 
+    private ObservableList<Book> bookList;
 
-    int userId = UserSession.getCurrentUser().getId();
-
-    public ObservableList<BookData> dataList() throws SQLException {
-        ObservableList<BookData> listdeta = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM books";
-        connect = Database.CODB();
-
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            prepare = connect.prepareStatement(sql);
-            resultSet = prepare.executeQuery();
-            BookData bookDeta;
-            while (resultSet.next()) {
-                bookDeta = new BookData();
-                bookDeta.setId(resultSet.getInt("id"));
-                bookDeta.setID(resultSet.getString("bookid"));
-                bookDeta.setName(resultSet.getString("bookname"));
-                bookDeta.setType(resultSet.getString("type"));
-                bookDeta.setDescription(resultSet.getString("Description"));
-                bookDeta.setPrice(resultSet.getDouble("price"));
-                bookDeta.setAuthor(resultSet.getString("Author"));
-                bookDeta.setDate(resultSet.getDate("date"));
-                listdeta.add(bookDeta);
-            }
-        } catch (Exception e) {
+            userId = UserSession.getCurrentUser().getId();
+            Connection connection = Database.CODB();
+            userService = new UserPageService(connection, userId);
+            bookRepo = new BookRepository();
+            loadBooks();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return listdeta;
     }
 
-    private ObservableList<BookData> List;
+    private void loadBooks() throws SQLException {
+        List<Book> books = bookRepo.findAll();
+        bookList = FXCollections.observableArrayList(books);
 
-    public void showDatalist() throws SQLException {
-        List = dataList();
-        customID.setCellValueFactory(new PropertyValueFactory<BookData, String>("ID"));
-        customName.setCellValueFactory(new PropertyValueFactory<BookData, String>("Name"));
-        customType.setCellValueFactory(new PropertyValueFactory<BookData, String>("Type"));
-        customDescription.setCellValueFactory(new PropertyValueFactory<BookData, String>("Description"));
-        customPrice.setCellValueFactory(new PropertyValueFactory<BookData, String>("Price"));
-        customAuthor.setCellValueFactory(new PropertyValueFactory<BookData, String>("Author"));
-        customDate.setCellValueFactory(new PropertyValueFactory<BookData, String>("Date"));
+        customID.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        customName.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        customType.setCellValueFactory(new PropertyValueFactory<>("Type"));
+        customDescription.setCellValueFactory(new PropertyValueFactory<>("Description"));
+        customPrice.setCellValueFactory(new PropertyValueFactory<>("Price"));
+        customAuthor.setCellValueFactory(new PropertyValueFactory<>("Author"));
+        customDate.setCellValueFactory(new PropertyValueFactory<>("Date"));
 
-        Usertableview.setItems(List);
+        Usertableview.setItems(bookList);
     }
 
+    @FXML
     public void Select() {
-        BookData bt = Usertableview.getSelectionModel().getSelectedItem();
-
-        textproductID.setText(bt.getID());
-        textProductname.setText(bt.getName());
-        textType.setText(bt.getType());
-        textAuthor.setText(bt.getAuthor());
-        textPrice.setText(String.valueOf(bt.getPrice()));
-        textDescription.setText(bt.getDescription());
-        Constants.id = bt.getId();
+        Book selected = Usertableview.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            textproductID.setText(selected.getID());
+            textProductname.setText(selected.getName());
+            textType.setText(selected.getType());
+            textAuthor.setText(selected.getAuthor());
+            textPrice.setText(String.valueOf(selected.getPrice()));
+            textDescription.setText(selected.getDescription());
+            Constants.id = selected.getId();
+        }
     }
 
-    public void Addbtn() throws SQLException {
+    @FXML
+    public void Addbtn() {
         if (textQuantity.getText().isEmpty()) {
             alterBox = new AlterBox();
             alterBox.error("Please fill out quantity field");
             return;
         }
 
-        connect = Database.CODB();
-
         try {
-            String findBook = "SELECT id FROM books WHERE bookid = ?";
-            prepare = connect.prepareStatement(findBook);
-            prepare.setString(1, textproductID.getText());
-            resultSet = prepare.executeQuery();
-
-            int bookId;
-            if (resultSet.next()) {
-                bookId = resultSet.getInt("id");
-            } else {
-                alterBox = new AlterBox();
-                alterBox.error("Book not found.");
-                return;
-            }
-
             int quantity = Integer.parseInt(textQuantity.getText());
-
-            String checkSql = "SELECT quantity FROM cart WHERE user_id = ? AND book_id = ?";
-            prepare = connect.prepareStatement(checkSql);
-            prepare.setInt(1, userId);
-            prepare.setInt(2, bookId);
-            resultSet = prepare.executeQuery();
-
-            if (resultSet.next()) {
-                int oldQuantity = resultSet.getInt("quantity");
-                int newQuantity = oldQuantity + quantity;
-
-                String updateSql = "UPDATE cart SET quantity = ?, added_at = CURRENT_TIMESTAMP " +
-                        "WHERE user_id = ? AND book_id = ?";
-                prepare = connect.prepareStatement(updateSql);
-                prepare.setInt(1, newQuantity);
-                prepare.setInt(2, userId);
-                prepare.setInt(3, bookId);
-                prepare.executeUpdate();
-
-                alterBox = new AlterBox();
-                alterBox.update("Quantity updated in cart.");
-            } else {
-                String insertSql = "INSERT INTO cart (user_id, book_id, quantity) VALUES (?, ?, ?)";
-                prepare = connect.prepareStatement(insertSql);
-                prepare.setInt(1, userId);
-                prepare.setInt(2, bookId);
-                prepare.setInt(3, quantity);
-                prepare.executeUpdate();
-
-                alterBox = new AlterBox();
-                alterBox.update("Book added to cart successfully.");
-            }
-
+            int bookId = bookRepo.getRealBookId(textproductID.getText());
+            String message = userService.addBookToCart(bookId, quantity);
+            alterBox = new AlterBox();
+            alterBox.update(message);
             textQuantity.clear();
-
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             alterBox = new AlterBox();
             alterBox.error("Error while adding to cart.");
         }
     }
 
-
-    public void next(ActionEvent event) throws IOException {
-        SwitchScene s1 = new SwitchScene();
-        s1.switchto(event, "checkpage.fxml");
+    @FXML
+    public void addToWishlist() {
+        try {
+            int bookId = bookRepo.getRealBookId(textproductID.getText());
+            String message = userService.addBookToWishlist(bookId);
+            alterBox = new AlterBox();
+            alterBox.update(message);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            alterBox = new AlterBox();
+            alterBox.error("Error while adding to wishlist.");
+        }
     }
 
-    public void search(ActionEvent event) throws IOException {
-        SwitchScene s1 = new SwitchScene();
-        s1.switchto(event, "Search.fxml");
-    }
-
-    public void showwishbtn(ActionEvent event) throws IOException {
-        SwitchScene s1 = new SwitchScene();
-        s1.switchto(event, "WishList.fxml");
-    }
-
-
+    @FXML
     public void Wishbtn() {
         try {
-            Connection connect = Database.CODB();
-            WishlistRepository repo = new WishlistRepository(connect);
-
-            String findBookSql = "SELECT id FROM books WHERE bookid = ?";
-            PreparedStatement stmt = connect.prepareStatement(findBookSql);
-            stmt.setString(1, textproductID.getText());
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                int bookId = rs.getInt("id");
-
-                if (repo.isBookInWishlist(userId, bookId)) {
-                    alterBox = new AlterBox();
-                    alterBox.error("This book has already been added.");
-                } else {
-                    repo.addBookToWishlist(userId, bookId);
-                    alterBox = new AlterBox();
-                    alterBox.update("Book added to wishlist successfully.");
-                }
-            } else {
-                alterBox = new AlterBox();
-                alterBox.error("Book not found.");
-            }
-        } catch (Exception e) {
+            int bookId = bookRepo.getRealBookId(textproductID.getText());
+            String message = userService.addBookToWishlist(bookId);
+            alterBox = new AlterBox();
+            alterBox.update(message);
+        } catch (SQLException e) {
             e.printStackTrace();
+            alterBox = new AlterBox();
+            alterBox.error("Error while adding to wishlist.");
         }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            showDatalist();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
+    @FXML
+    public void next(ActionEvent event) throws IOException {
+        new SwitchScene().switchto(event, "checkpage.fxml");
+    }
+
+    @FXML
+    public void search(ActionEvent event) throws IOException {
+        new SwitchScene().switchto(event, "Search.fxml");
+    }
+
+    @FXML
+    public void showwishbtn(ActionEvent event) throws IOException {
+        new SwitchScene().switchto(event, "WishList.fxml");
     }
 }
+
 
