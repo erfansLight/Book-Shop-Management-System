@@ -1,4 +1,4 @@
-package org.example.bs;
+package org.example.bs.Model;
 
 import java.util.Date;
 

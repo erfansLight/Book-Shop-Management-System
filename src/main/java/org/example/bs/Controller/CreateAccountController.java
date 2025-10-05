@@ -1,10 +1,14 @@
-package org.example.bs;
+package org.example.bs.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.example.bs.AlterBox;
+import org.example.bs.Model.User;
+import org.example.bs.Service.AuthService;
+import org.example.bs.SwitchScene;
 
 import java.io.IOException;
 import java.sql.SQLException;

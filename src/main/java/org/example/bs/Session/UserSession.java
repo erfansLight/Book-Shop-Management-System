@@ -1,4 +1,6 @@
-package org.example.bs;
+package org.example.bs.Session;
+
+import org.example.bs.Model.User;
 
 public class UserSession {
     private static User currentUser;

@@ -1,4 +1,7 @@
-package org.example.bs;
+package org.example.bs.Service;
+
+import org.example.bs.Repository.CartRepository;
+import org.example.bs.Repository.WishlistRepository;
 
 import java.sql.Connection;
 import java.sql.SQLException;

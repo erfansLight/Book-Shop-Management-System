@@ -1,8 +1,8 @@
-package org.example.bs;
+package org.example.bs.Model;
 
 import java.util.Date;
 
-public class SalesData {
+public class Sales {
     private int id;
     private String ID;
     private String Name;

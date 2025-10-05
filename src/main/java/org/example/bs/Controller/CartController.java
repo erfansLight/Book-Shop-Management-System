@@ -1,17 +1,18 @@
-package org.example.bs;
+package org.example.bs.Controller;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
+import org.example.bs.*;
+import org.example.bs.Model.Sales;
+import org.example.bs.Repository.BookRepository;
+import org.example.bs.Repository.CartRepository;
+import org.example.bs.Session.UserSession;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,9 +27,9 @@ public class CartController extends WishlistController implements Initializable 
     @FXML
     private TextField textcheckID, textcheckname, textcheckprice, textchecktype, textQu;
     @FXML
-    private TableView<SalesData> checktable;
+    private TableView<Sales> checktable;
     @FXML
-    private TableColumn<SalesData, String> checkID, checkName, checkType, checkPrice, checkQuantity, checkDate;
+    private TableColumn<Sales, String> checkID, checkName, checkType, checkPrice, checkQuantity, checkDate;
 
     private CartRepository cartRepo;
     private BookRepository bookRepo;
@@ -49,7 +50,7 @@ public class CartController extends WishlistController implements Initializable 
 
     @FXML
     private void refreshCartTable() throws SQLException {
-        ObservableList<SalesData> list = cartRepo.getCartItems(userId);
+        ObservableList<Sales> list = cartRepo.getCartItems(userId);
         checkID.setCellValueFactory(new PropertyValueFactory<>("ID"));
         checkName.setCellValueFactory(new PropertyValueFactory<>("Name"));
         checkType.setCellValueFactory(new PropertyValueFactory<>("Type"));
@@ -61,7 +62,7 @@ public class CartController extends WishlistController implements Initializable 
 
     @FXML
     public void select() {
-        SalesData sd = checktable.getSelectionModel().getSelectedItem();
+        Sales sd = checktable.getSelectionModel().getSelectedItem();
         if (sd == null) return;
 
         textcheckID.setText(sd.getID());
@@ -154,9 +155,10 @@ public class CartController extends WishlistController implements Initializable 
 
     @FXML
     private void navigateToUserPage(ActionEvent event) throws IOException {
-        Parent root = load(getClass().getResource("UserPage.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+        try {
+            new SwitchScene().switchto(event, "UserPage.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

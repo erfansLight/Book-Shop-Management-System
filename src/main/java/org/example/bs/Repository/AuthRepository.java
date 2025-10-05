@@ -1,4 +1,7 @@
-package org.example.bs;
+package org.example.bs.Repository;
+
+import org.example.bs.Database;
+import org.example.bs.Model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

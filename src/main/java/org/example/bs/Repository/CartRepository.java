@@ -1,7 +1,8 @@
-package org.example.bs;
+package org.example.bs.Repository;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.example.bs.Model.Sales;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,15 +16,15 @@ public class CartRepository {
         this.connection = connection;
     }
 
-    public ObservableList<SalesData> getCartItems(int userId) throws SQLException {
-        ObservableList<SalesData> list = FXCollections.observableArrayList();
+    public ObservableList<Sales> getCartItems(int userId) throws SQLException {
+        ObservableList<Sales> list = FXCollections.observableArrayList();
         String sql = "SELECT c.book_id, b.bookid, b.bookname, b.type, b.price, c.quantity, c.added_at " +
                 "FROM cart c JOIN books b ON c.book_id = b.id WHERE c.user_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, userId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    SalesData sd = new SalesData();
+                    Sales sd = new Sales();
                     sd.setId(rs.getInt("book_id"));
                     sd.setID(rs.getString("bookid"));
                     sd.setName(rs.getString("bookname"));

@@ -1,7 +1,9 @@
-package org.example.bs;
+package org.example.bs.Service;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.example.bs.Model.Wishlist;
+import org.example.bs.Repository.WishlistRepository;
 
 import java.sql.Connection;
 import java.sql.SQLException;

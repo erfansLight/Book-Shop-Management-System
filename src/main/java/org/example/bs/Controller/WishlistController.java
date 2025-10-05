@@ -1,10 +1,15 @@
-package org.example.bs;
+package org.example.bs.Controller;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import org.example.bs.Database;
+import org.example.bs.Model.Wishlist;
+import org.example.bs.Service.WishlistService;
+import org.example.bs.SwitchScene;
+import org.example.bs.Session.UserSession;
 
 import java.net.URL;
 import java.sql.Connection;

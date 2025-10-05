@@ -1,4 +1,8 @@
-package org.example.bs;
+package org.example.bs.Service;
+
+import org.example.bs.AlterBox;
+import org.example.bs.Repository.AuthRepository;
+import org.example.bs.Model.User;
 
 import java.sql.SQLException;
 import java.time.LocalDate;

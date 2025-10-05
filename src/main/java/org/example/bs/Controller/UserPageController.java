@@ -1,4 +1,4 @@
-package org.example.bs;
+package org.example.bs.Controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,6 +7,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.example.bs.*;
+import org.example.bs.Model.Book;
+import org.example.bs.Repository.BookRepository;
+import org.example.bs.Service.UserPageService;
+import org.example.bs.Session.UserSession;
 
 import java.io.IOException;
 import java.net.URL;
